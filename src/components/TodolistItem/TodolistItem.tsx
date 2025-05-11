@@ -10,15 +10,27 @@ type TodolistPropsType = {
     createTask: (title: string) => void;
     deleteAll: () => void;
     changeTaskStatus: (taskId: string, isDone: boolean) => void;
+    filter: string;
 }
 
 
-export const TodolistItem = ({ title, tasks, deleteTask, changeFilter, createTask, deleteAll, changeTaskStatus }: TodolistPropsType) => {
+export const TodolistItem = ({
+                                 title,
+                                 tasks,
+                                 deleteTask,
+                                 changeFilter,
+                                 createTask,
+                                 deleteAll,
+                                 changeTaskStatus,
+                                 filter
+                             }: TodolistPropsType) => {
 
     const [tasksTitle, setTasksTitle] = useState("");
+    const [error, setError] = useState<string | null>(null)
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setTasksTitle(event.target.value)
+        setError(null)
     }
 
     const createTaskHandler = () => {
@@ -26,12 +38,16 @@ export const TodolistItem = ({ title, tasks, deleteTask, changeFilter, createTas
         if (trimmedTitle !== '') {
             createTask(trimmedTitle)
             setTasksTitle('')
+        } else {
+            setError('Title is required')
         }
     }
 
-    const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement> ) => { if (event.key === 'Enter') {
-        createTaskHandler()
-    }}
+    const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            createTaskHandler()
+        }
+    }
 
     const changeTaskStatusHandler = (task: string, e: ChangeEvent<HTMLInputElement>) => {
         const newStatusValue = e.currentTarget.checked
@@ -43,30 +59,46 @@ export const TodolistItem = ({ title, tasks, deleteTask, changeFilter, createTas
         <div>
             <h3>{title}</h3>
             <div>
-                <input value={tasksTitle} onChange={onChangeHandler}  onKeyDown={createTaskOnEnterHandler}/>
+                <input value={tasksTitle}
+                       onChange={onChangeHandler}
+                       onKeyDown={createTaskOnEnterHandler}
+                       className={error ? 'error' : ''}
+                />
                 <Button title={'+'} onClickHandler={createTaskHandler}/>
             </div>
             <Button title={'dalete all'} onClickHandler={deleteAll}/>
+            {error && <div className={'error-message'}>{error}</div>}
             {tasks.length === 0 ? (
                 <p>Тасок нет</p>
             ) : (
                 <ul>
                     {tasks.map(task => {
-                        const deleteTaskHandler = () => {deleteTask(task.id)}
+                        const deleteTaskHandler = () => {
+                            deleteTask(task.id)
+                        }
                         return (
-                            <li key={task.id}>
-                                <input type="checkbox" checked={task.isDone} onChange={(e) => changeTaskStatusHandler(task.id, e)}/>
+                            <li key={task.id} className={task.isDone ? 'is-done' : ''}>
+                                <input type="checkbox" checked={task.isDone}
+                                       onChange={(e) => changeTaskStatusHandler(task.id, e)}/>
                                 <span>{task.title}</span>
-                                <Button title={"x"} onClickHandler={deleteTaskHandler} />
+                                <Button title={"x"} onClickHandler={deleteTaskHandler}/>
                             </li>
                         )
                     })}
                 </ul>
             )}
             <div>
-                <Button title={'All'}  onClickHandler={() => {changeFilter("all")}}/>
-                <Button title={'Active'}  onClickHandler={() => {changeFilter("active")}}/>
-                <Button title={'Completed'}  onClickHandler={() => {changeFilter("completed")}}/>
+                <Button title={'All'}
+                        className={filter === 'all' ? 'active-filter' : ''}
+                        onClickHandler={() => changeFilter("all")}/>
+                <Button title={'Active'}
+                        className={filter === 'active' ? 'active-filter' : ''}
+                        onClickHandler={() => changeFilter("active")
+                }/>
+                <Button title={'Completed'}
+                        className={filter === 'completed' ? 'active-filter' : ''}
+                        onClickHandler={() => changeFilter("completed")
+                }/>
             </div>
         </div>
     )

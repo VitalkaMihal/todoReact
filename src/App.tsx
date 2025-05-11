@@ -63,6 +63,7 @@ export const App = () => {
                 createTask={createTaskHandler}
                 deleteAll={deleteAll}
                 changeTaskStatus={changeTaskStatus}
+                filter={filter}
             />
         </div>
     )
