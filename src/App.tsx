@@ -13,12 +13,12 @@ export type FilterValues = 'all' | 'active' | 'completed'
 
 export const App = () => {
     const [tasks, setTasks] = useState<Task[]>([
-        { id: v1(), title: 'HTML&CSS', isDone: true },
-        { id: v1(), title: 'JS', isDone: true },
-        { id: v1(), title: 'ReactJS', isDone: false },
-        { id: v1(), title: 'Redux', isDone: false },
-        { id: v1(), title: 'Typescript', isDone: false },
-        { id: v1(), title: 'RTK query', isDone: false },
+        {id: v1(), title: 'HTML&CSS', isDone: true},
+        {id: v1(), title: 'JS', isDone: true},
+        {id: v1(), title: 'ReactJS', isDone: false},
+        {id: v1(), title: 'Redux', isDone: false},
+        {id: v1(), title: 'Typescript', isDone: false},
+        {id: v1(), title: 'RTK query', isDone: false},
     ])
 
     const deleteTask = (id: string) => {
@@ -41,10 +41,17 @@ export const App = () => {
     }
 
     const createTaskHandler = (title: string) => {
-        setTasks([...tasks, { id: v1(), title, isDone: false }])
+        setTasks([...tasks, {id: v1(), title, isDone: false}])
     }
 
+    const deleteAll = () => {
+        setTasks([])
+    }
 
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        const newState = tasks.map(task => task.id == taskId ? { ...task, isDone } : task)
+        setTasks(newState)
+    }
 
     return (
         <div className="app">
@@ -54,6 +61,8 @@ export const App = () => {
                 deleteTask={deleteTask}
                 changeFilter={changeFilter}
                 createTask={createTaskHandler}
+                deleteAll={deleteAll}
+                changeTaskStatus={changeTaskStatus}
             />
         </div>
     )
