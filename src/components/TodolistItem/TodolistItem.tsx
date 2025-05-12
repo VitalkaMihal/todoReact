@@ -49,10 +49,7 @@ export const TodolistItem = ({
         }
     }
 
-    const changeTaskStatusHandler = (task: string, e: ChangeEvent<HTMLInputElement>) => {
-        const newStatusValue = e.currentTarget.checked
-        changeTaskStatus(task, newStatusValue)
-    }
+
 
 
     return (
@@ -66,8 +63,8 @@ export const TodolistItem = ({
                 />
                 <Button title={'+'} onClickHandler={createTaskHandler}/>
             </div>
-            <Button title={'dalete all'} onClickHandler={deleteAll}/>
             {error && <div className={'error-message'}>{error}</div>}
+            <Button title={'dalete all'} onClickHandler={deleteAll}/>
             {tasks.length === 0 ? (
                 <p>Тасок нет</p>
             ) : (
@@ -76,10 +73,15 @@ export const TodolistItem = ({
                         const deleteTaskHandler = () => {
                             deleteTask(task.id)
                         }
+
+                        const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement> ) => {
+                            changeTaskStatus(task.id, e.currentTarget.checked)
+                        }
+
                         return (
                             <li key={task.id} className={task.isDone ? 'is-done' : ''}>
                                 <input type="checkbox" checked={task.isDone}
-                                       onChange={(e) => changeTaskStatusHandler(task.id, e)}/>
+                                       onChange={changeTaskStatusHandler}/>
                                 <span>{task.title}</span>
                                 <Button title={"x"} onClickHandler={deleteTaskHandler}/>
                             </li>
