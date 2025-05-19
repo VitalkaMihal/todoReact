@@ -55,8 +55,9 @@ export const App = () => {
         console.log(filter)
     }
 
-    const createTaskHandler = (title: string) => {
-        setTasks([{id: v1(), title, isDone: false}, ...tasks])
+    const createTaskHandler = (todolistId: string, title: string) => {
+        const newTask = {id: v1(), title, isDone: false}
+        setTasks({ ...tasks, [todolistId]: [newTask, ...tasks[todolistId]] })
     }
 
     const deleteAll = () => {
