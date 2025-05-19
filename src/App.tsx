@@ -69,15 +69,14 @@ export const App = () => {
         <div className="app">
             {todolists.map(todolist => {
                 return (
-                    <TodolistItem
-                        title="What to learn"
+                    <TodolistItem key={todolist.id}
+                        todolist={todolist}
                         tasks={filteredTasks}
                         deleteTask={deleteTask}
                         changeFilter={changeFilter}
                         createTask={createTaskHandler}
                         deleteAll={deleteAll}
                         changeTaskStatus={changeTaskStatus}
-                        filter={filter}
                     />
                 )
             })}
