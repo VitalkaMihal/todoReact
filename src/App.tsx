@@ -4,14 +4,26 @@ import {useState} from "react";
 import {v1} from "uuid";
 
 export type Task = {
-    id: string
-    title: string
-    isDone: boolean
+    id: string;
+    title: string;
+    isDone: boolean;
 }
 
 export type FilterValues = 'all' | 'active' | 'completed'
 
+export type TodoList = {
+    id: string;
+    title: string;
+    filter: FilterValues;
+}
+
 export const App = () => {
+
+    const [todolists, setTodolists] = useState<TodoList[]>([
+        {id: v1(), title: "What to learn", filter: "all"},
+        {id: v1(), title: "What to buy", filter: "all"}
+    ])
+
     const [tasks, setTasks] = useState<Task[]>([
         {id: v1(), title: 'HTML&CSS', isDone: true},
         {id: v1(), title: 'JS', isDone: true},
@@ -55,16 +67,21 @@ export const App = () => {
 
     return (
         <div className="app">
-            <TodolistItem
-                title="What to learn"
-                tasks={filteredTasks}
-                deleteTask={deleteTask}
-                changeFilter={changeFilter}
-                createTask={createTaskHandler}
-                deleteAll={deleteAll}
-                changeTaskStatus={changeTaskStatus}
-                filter={filter}
-            />
+            {todolists.map(todolist => {
+                return (
+                    <TodolistItem
+                        title="What to learn"
+                        tasks={filteredTasks}
+                        deleteTask={deleteTask}
+                        changeFilter={changeFilter}
+                        createTask={createTaskHandler}
+                        deleteAll={deleteAll}
+                        changeTaskStatus={changeTaskStatus}
+                        filter={filter}
+                    />
+                )
+            })}
+
         </div>
     )
 }

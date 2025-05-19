@@ -10,7 +10,7 @@ type TodolistPropsType = {
     createTask: (title: string) => void;
     deleteAll: () => void;
     changeTaskStatus: (taskId: string, isDone: boolean) => void;
-    filter: string;
+    filter: FilterValues;
 }
 
 
