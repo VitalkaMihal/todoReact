@@ -10,8 +10,8 @@ type TodolistPropsType = {
     createTask: (todolistId: string, title: string) => void;
     deleteAll: (todolistId: string) => void;
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void;
+    deleteTodolist: (todolistId: string) => void
 }
-
 
 
 export const TodolistItem = ({
@@ -21,6 +21,7 @@ export const TodolistItem = ({
                                  changeFilter,
                                  createTask,
                                  deleteAll,
+                                 deleteTodolist,
                                  changeTaskStatus,
                              }: TodolistPropsType) => {
 
@@ -49,17 +50,24 @@ export const TodolistItem = ({
     }
 
     const changeFilterHandler = (filter: FilterValues) => {
-        changeFilter(id , filter)
+        changeFilter(id, filter)
     }
 
     const deleteAllHendler = () => {
         deleteAll(id)
     }
 
+    const deleteTodolistHandler = () => {
+        deleteTodolist(id)
+    }
+
 
     return (
         <div>
-            <h3>{title}</h3>
+            <div className={'container'}>
+                <h3>{title}</h3>
+                <Button title={'x'} onClickHandler={deleteTodolistHandler} />
+            </div>
             <div>
                 <input value={tasksTitle}
                        onChange={onChangeHandler}
@@ -79,7 +87,7 @@ export const TodolistItem = ({
                             deleteTask(id, task.id)
                         }
 
-                        const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement> ) => {
+                        const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             changeTaskStatus(id, task.id, e.currentTarget.checked)
                         }
 
@@ -101,11 +109,11 @@ export const TodolistItem = ({
                 <Button title={'Active'}
                         className={filter === 'active' ? 'active-filter' : ''}
                         onClickHandler={() => changeFilterHandler("active")
-                }/>
+                        }/>
                 <Button title={'Completed'}
                         className={filter === 'completed' ? 'active-filter' : ''}
                         onClickHandler={() => changeFilterHandler("completed")
-                }/>
+                        }/>
             </div>
         </div>
     )
