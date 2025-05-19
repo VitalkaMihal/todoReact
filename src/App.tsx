@@ -19,19 +19,32 @@ export type TodoList = {
 
 export const App = () => {
 
+    const todoList1 = v1();
+    const todoList2 = v1();
+
     const [todoLists, setTodoLists] = useState<TodoList[]>([
-        {id: v1(), title: "What to learn", filter: "all"},
-        {id: v1(), title: "What to buy", filter: "all"}
+        {id: todoList1, title: "What to learn", filter: "all"},
+        {id: todoList2, title: "What to buy", filter: "all"}
     ])
 
-    const [tasks, setTasks] = useState<Task[]>([
-        {id: v1(), title: 'HTML&CSS', isDone: true},
-        {id: v1(), title: 'JS', isDone: true},
-        {id: v1(), title: 'ReactJS', isDone: false},
-        {id: v1(), title: 'Redux', isDone: false},
-        {id: v1(), title: 'Typescript', isDone: false},
-        {id: v1(), title: 'RTK query', isDone: false},
-    ])
+    const [tasks, setTasks] = useState({
+        [todoList1]: [
+            {id: v1(), title: 'HTML&CSS', isDone: true},
+            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'ReactJS', isDone: false},
+            {id: v1(), title: 'Redux', isDone: false},
+            {id: v1(), title: 'Typescript', isDone: false},
+            {id: v1(), title: 'RTK query', isDone: false},
+        ],
+        [todoList2]: [
+            {id: v1(), title: 'HTML&CSS', isDone: true},
+            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'ReactJS', isDone: false},
+            {id: v1(), title: 'Redux', isDone: false},
+            {id: v1(), title: 'Typescript', isDone: false},
+            {id: v1(), title: 'RTK query', isDone: false},
+        ]
+    })
 
     const deleteTask = (id: string) => {
         setTasks(tasks.filter((task: Task) => task.id !== id))
@@ -43,7 +56,7 @@ export const App = () => {
     }
 
     const createTaskHandler = (title: string) => {
-        setTasks([...tasks, {id: v1(), title, isDone: false}])
+        setTasks([{id: v1(), title, isDone: false}, ...tasks])
     }
 
     const deleteAll = () => {
