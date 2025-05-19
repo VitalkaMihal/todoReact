@@ -60,8 +60,8 @@ export const App = () => {
         setTasks({ ...tasks, [todolistId]: [newTask, ...tasks[todolistId]] })
     }
 
-    const deleteAll = () => {
-        setTasks([])
+    const deleteAll = (todolistId: string) => {
+        setTasks({ ...tasks, [todolistId]: [] })
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) => {

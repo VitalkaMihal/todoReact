@@ -8,7 +8,7 @@ type TodolistPropsType = {
     deleteTask: (todoListId: string, taskId: string) => void;
     changeFilter: (todolistId: string, filter: FilterValues) => void;
     createTask: (todolistId: string, title: string) => void;
-    deleteAll: () => void;
+    deleteAll: (todolistId: string) => void;
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void;
 }
 
@@ -52,6 +52,10 @@ export const TodolistItem = ({
         changeFilter(id , filter)
     }
 
+    const deleteAllHendler = () => {
+        deleteAll(id)
+    }
+
 
     return (
         <div>
@@ -65,7 +69,7 @@ export const TodolistItem = ({
                 <Button title={'+'} onClickHandler={createTaskHandler}/>
             </div>
             {error && <div className={'error-message'}>{error}</div>}
-            <Button title={'dalete all'} onClickHandler={deleteAll}/>
+            <Button title={'dalete all'} onClickHandler={deleteAllHendler}/>
             {tasks.length === 0 ? (
                 <p>Тасок нет</p>
             ) : (
