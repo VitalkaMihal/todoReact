@@ -1,10 +1,12 @@
-import {FilterValues, Task, TodoList} from "../../App.tsx";
+import {FilterValues, Task} from "../../App.tsx";
 import {Button} from "../Button/Button.tsx";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type TodolistPropsType = {
-    todolist: TodoList;
+    id: string;
+    title: string
     tasks: Task[];
+    filter: FilterValues;
     deleteTask: (todoListId: string, taskId: string) => void;
     changeFilter: (todolistId: string, filter: FilterValues) => void;
     createTask: (todolistId: string, title: string) => void;
@@ -15,7 +17,9 @@ type TodolistPropsType = {
 
 
 export const TodolistItem = ({
-                                 todolist: {id, title, filter},
+                                 id,
+                                 title,
+                                 filter,
                                  tasks,
                                  deleteTask,
                                  changeFilter,
