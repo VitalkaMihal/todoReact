@@ -1,6 +1,7 @@
 import {FilterValues, Task} from "../../App.tsx";
 import {Button} from "../Button/Button.tsx";
-import {ChangeEvent, KeyboardEvent, useState} from "react";
+import {ChangeEvent} from "react";
+import {CreateItemForm} from "../CreateItemForm/CreateItemForm.tsx";
 
 type TodolistPropsType = {
     id: string;
@@ -29,35 +30,35 @@ export const TodolistItem = ({
                                  changeTaskStatus,
                              }: TodolistPropsType) => {
 
-    const [tasksTitle, setTasksTitle] = useState("");
-    const [error, setError] = useState<string | null>(null)
+    // const [tasksTitle, setTasksTitle] = useState("");
+    // const [error, setError] = useState<string | null>(null)
 
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setTasksTitle(event.target.value)
-        setError(null)
-    }
+    // const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    //     setTasksTitle(event.target.value)
+    //     setError(null)
+    // }
 
-    const createTaskHandler = () => {
-        const trimmedTitle = tasksTitle.trim()
-        if (trimmedTitle !== '') {
-            createTask(id, trimmedTitle)
-            setTasksTitle('')
-        } else {
-            setError('Title is required')
-        }
-    }
+    // const createTaskHandler = () => {
+    //     const trimmedTitle = tasksTitle.trim()
+    //     if (trimmedTitle !== '') {
+    //         createTask(id, trimmedTitle)
+    //         setTasksTitle('')
+    //     } else {
+    //         setError('Title is required')
+    //     }
+    // }
 
-    const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            createTaskHandler()
-        }
-    }
+    // const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    //     if (event.key === 'Enter') {
+    //         createTaskHandler()
+    //     }
+    // }
 
     const changeFilterHandler = (filter: FilterValues) => {
         changeFilter(id, filter)
     }
 
-    const deleteAllHendler = () => {
+    const deleteAllHandler = () => {
         deleteAll(id)
     }
 
@@ -65,23 +66,19 @@ export const TodolistItem = ({
         deleteTodolist(id)
     }
 
+    const createTaskHandler = (title: string) => {
+        createTask(id, title)
+    }
+
 
     return (
         <div>
             <div className={'container'}>
                 <h3>{title}</h3>
-                <Button title={'x'} onClickHandler={deleteTodolistHandler} />
+                <Button title={'x'} onClickHandler={deleteTodolistHandler}/>
             </div>
-            <div>
-                <input value={tasksTitle}
-                       onChange={onChangeHandler}
-                       onKeyDown={createTaskOnEnterHandler}
-                       className={error ? 'error' : ''}
-                />
-                <Button title={'+'} onClickHandler={createTaskHandler}/>
-            </div>
-            {error && <div className={'error-message'}>{error}</div>}
-            <Button title={'dalete all'} onClickHandler={deleteAllHendler}/>
+            <CreateItemForm onCreateItem={createTaskHandler}/>
+            <Button title={'dalete all'} onClickHandler={deleteAllHandler}/>
             {tasks.length === 0 ? (
                 <p>Тасок нет</p>
             ) : (
