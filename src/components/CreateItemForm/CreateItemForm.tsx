@@ -31,8 +31,6 @@ export const CreateItemForm = ({ onCreateItem }: CreateItemFormProps) => {
         }
     }
 
-
-
     return (
         <div>
             <input value={Title}

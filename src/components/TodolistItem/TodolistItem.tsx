@@ -2,6 +2,7 @@ import {FilterValues, Task} from "../../App.tsx";
 import {Button} from "../Button/Button.tsx";
 import {ChangeEvent} from "react";
 import {CreateItemForm} from "../CreateItemForm/CreateItemForm.tsx";
+import {EditableSpan} from "../EditableSpan/EditableSpan.tsx";
 
 type TodolistPropsType = {
     id: string;
@@ -14,6 +15,8 @@ type TodolistPropsType = {
     deleteAll: (todolistId: string) => void;
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void;
     deleteTodolist: (todolistId: string) => void
+    changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
+    changeTodolistTitle: (todolistId: string, title: string) => void
 }
 
 
@@ -28,6 +31,8 @@ export const TodolistItem = ({
                                  deleteAll,
                                  deleteTodolist,
                                  changeTaskStatus,
+                                 changeTaskTitle,
+                                 changeTodolistTitle
                              }: TodolistPropsType) => {
 
     // const [tasksTitle, setTasksTitle] = useState("");
@@ -92,11 +97,15 @@ export const TodolistItem = ({
                             changeTaskStatus(id, task.id, e.currentTarget.checked)
                         }
 
+                        const changeTaskTitleHandler = (title: string) => {
+                            changeTaskTitle(id, task.id, title)
+                        }
+
                         return (
                             <li key={task.id} className={task.isDone ? 'is-done' : ''}>
                                 <input type="checkbox" checked={task.isDone}
                                        onChange={changeTaskStatusHandler}/>
-                                <span>{task.title}</span>
+                                <EditableSpan value={task.title} onChange={changeTaskTitleHandler}/>
                                 <Button title={"x"} onClickHandler={deleteTaskHandler}/>
                             </li>
                         )
