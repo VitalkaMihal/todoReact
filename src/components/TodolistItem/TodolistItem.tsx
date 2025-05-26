@@ -75,11 +75,17 @@ export const TodolistItem = ({
         createTask(id, title)
     }
 
+    const changeTodolistTitleHandler = (title: string) => {
+        changeTodolistTitle(id, title)
+    }
+
 
     return (
         <div>
             <div className={'container'}>
-                <h3>{title}</h3>
+                <h3>
+                    <EditableSpan value={title} onChange={changeTodolistTitleHandler}/>
+                </h3>
                 <Button title={'x'} onClickHandler={deleteTodolistHandler}/>
             </div>
             <CreateItemForm onCreateItem={createTaskHandler}/>
