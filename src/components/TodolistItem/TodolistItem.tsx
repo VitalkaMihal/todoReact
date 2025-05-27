@@ -35,30 +35,6 @@ export const TodolistItem = ({
                                  changeTodolistTitle
                              }: TodolistPropsType) => {
 
-    // const [tasksTitle, setTasksTitle] = useState("");
-    // const [error, setError] = useState<string | null>(null)
-
-    // const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    //     setTasksTitle(event.target.value)
-    //     setError(null)
-    // }
-
-    // const createTaskHandler = () => {
-    //     const trimmedTitle = tasksTitle.trim()
-    //     if (trimmedTitle !== '') {
-    //         createTask(id, trimmedTitle)
-    //         setTasksTitle('')
-    //     } else {
-    //         setError('Title is required')
-    //     }
-    // }
-
-    // const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    //     if (event.key === 'Enter') {
-    //         createTaskHandler()
-    //     }
-    // }
-
     const changeFilterHandler = (filter: FilterValues) => {
         changeFilter(id, filter)
     }
