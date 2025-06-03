@@ -3,6 +3,14 @@ import {TodolistItem} from './components/TodolistItem/TodolistItem.tsx'
 import {useState} from "react";
 import {v1} from "uuid";
 import {CreateItemForm} from "./components/CreateItemForm/CreateItemForm.tsx";
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
+import Paper from '@mui/material/Paper'
 
 export type Task = {
     id: string;
@@ -101,30 +109,50 @@ export const App = () => {
     }
 
     const changeTodolistTitle = (todolistId: string, title: string) => {
-        setTodoLists(todoLists.map(todolist => todolist.id === todolistId ? { ...todolist, title } : todolist))
+        setTodoLists(todoLists.map(todolist => todolist.id === todolistId ? {...todolist, title} : todolist))
     }
 
     return (
         <div className="app">
-            <CreateItemForm onCreateItem={createTodolist}/>
-            {todoLists.map(todoList => {
-                return (
-                    <TodolistItem key={todoList.id}
-                                  id={todoList.id}
-                                  title={todoList.title}
-                                  filter={todoList.filter}
-                                  tasks={setTodoFilteredTask(todoList.id, todoList.filter)}
-                                  deleteTask={deleteTask}
-                                  changeFilter={changeFilter}
-                                  createTask={createTaskHandler}
-                                  deleteAll={deleteAll}
-                                  changeTaskStatus={changeTaskStatus}
-                                  deleteTodolist={deleteTodolist}
-                                  changeTaskTitle={changeTaskTitle}
-                                  changeTodolistTitle={changeTodolistTitle}
-                    />
-                )
-            })}
+            <AppBar position="static">
+                <Toolbar>
+                    <Container maxWidth={'lg'}>
+                        <IconButton color="inherit">
+                            <MenuIcon/>
+                        </IconButton>
+                        <Button color="inherit">Sign in</Button>
+                    </Container>
+                </Toolbar>
+            </AppBar>
+            <Container maxWidth={'lg'}>
+                <Grid container>
+                    <CreateItemForm onCreateItem={createTodolist}/>
+                </Grid>
+                <Grid container spacing={4}>
+                    {todoLists.map(todoList => {
+                        return (
+                            <Grid key={todoList.id}>
+                                <Paper>
+                                <TodolistItem key={todoList.id}
+                                              id={todoList.id}
+                                              title={todoList.title}
+                                              filter={todoList.filter}
+                                              tasks={setTodoFilteredTask(todoList.id, todoList.filter)}
+                                              deleteTask={deleteTask}
+                                              changeFilter={changeFilter}
+                                              createTask={createTaskHandler}
+                                              deleteAll={deleteAll}
+                                              changeTaskStatus={changeTaskStatus}
+                                              deleteTodolist={deleteTodolist}
+                                              changeTaskTitle={changeTaskTitle}
+                                              changeTodolistTitle={changeTodolistTitle}
+                                />
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
 
         </div>
     )
