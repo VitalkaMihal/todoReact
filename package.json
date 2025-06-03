@@ -1,6 +1,6 @@
 {
   "name": "todolist-01",
-  "homepage": "https://vitalkamihal.github.io/todoReact/",
+  "homepage": "https://vitalkamihal.github.io/todoReact",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,6 +13,10 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.1.1",
+    "@mui/material": "^7.1.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "uuid": "^11.1.0"
@@ -24,7 +28,7 @@
     "gh-pages": "^6.3.0",
     "globals": "15.14.0",
     "typescript": "5.7.2",
-    "vite": "6.0.6",
-    "vitest": "2.1.8"
+    "vite": "6.3.4",
+    "vitest": "3.0.5"
   }
 }
