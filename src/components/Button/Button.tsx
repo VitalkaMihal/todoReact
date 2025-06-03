@@ -4,6 +4,6 @@ type ButtonProps = {
     className?: string
 }
 
-export const Button = ({ title, onClickHandler, className }: ButtonProps) => {
+export const ButtonComponent = ({ title, onClickHandler, className }: ButtonProps) => {
     return <button className={className} onClick={onClickHandler}>{title}</button>
 }

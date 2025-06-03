@@ -1,5 +1,5 @@
-import {Button} from "../Button/Button.tsx";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
+import {Button, TextField} from "@mui/material";
 
 type CreateItemFormProps = {
     onCreateItem: (title: string) => void
@@ -7,7 +7,7 @@ type CreateItemFormProps = {
 
 export const CreateItemForm = ({ onCreateItem }: CreateItemFormProps) => {
 
-    const [Title, setTitle] = useState("");
+    const [title, setTitle] = useState("");
     const [error, setError] = useState<string | null>(null)
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +16,7 @@ export const CreateItemForm = ({ onCreateItem }: CreateItemFormProps) => {
     }
 
     const createItemHandler = () => {
-        const trimmedTitle = Title.trim()
+        const trimmedTitle = title.trim()
         if (trimmedTitle !== '') {
             onCreateItem(trimmedTitle)
             setTitle('')
@@ -33,13 +33,23 @@ export const CreateItemForm = ({ onCreateItem }: CreateItemFormProps) => {
 
     return (
         <div>
-            <input value={Title}
-                   onChange={onChangeHandler}
-                   onKeyDown={createItemOnEnterHandler}
-                   className={error ? 'error' : ''}
-            />
-            <Button title={'+'} onClickHandler={createItemHandler}/>
-            {error && <div className={'error-message'}>{error}</div>}
+            <TextField label={'Enter a title'}
+                       variant={'outlined'}
+                       className={error ? 'error' : ''}
+                       value={title}
+                       size={'small'}
+                       error={!!error}
+                       helperText={error}
+                       onChange={onChangeHandler}
+                       onKeyDown={createItemOnEnterHandler}/>
+            {/*<input value={Title}*/}
+            {/*       onChange={onChangeHandler}*/}
+            {/*       onKeyDown={createItemOnEnterHandler}*/}
+            {/*       className={error ? 'error' : ''}*/}
+            {/*/>*/}
+            <Button variant="contained" onClick={createItemHandler}>+</Button>
+            {/*<ButtonComponent title={'+'} onClickHandler={createItemHandler}/>*/}
+            {/*{error && <div className={'error-message'}>{error}</div>}*/}
         </div>
     );
 };
