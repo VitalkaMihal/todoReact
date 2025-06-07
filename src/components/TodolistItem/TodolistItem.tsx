@@ -4,10 +4,12 @@ import {ChangeEvent} from "react";
 import {CreateItemForm} from "../CreateItemForm/CreateItemForm.tsx";
 import {EditableSpan} from "../EditableSpan/EditableSpan.tsx";
 import IconButton from '@mui/material/IconButton'
-import DeleteIcon from '@mui/icons-material/Delete'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import BackspaceIcon from '@mui/icons-material/Backspace';
 import {Button, Checkbox} from "@mui/material";
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
+
 
 type TodolistPropsType = {
     id: string;
@@ -68,7 +70,7 @@ export const TodolistItem = ({
                     <EditableSpan value={title} onChange={changeTodolistTitleHandler}/>
                 </h3>
                 <IconButton onClick={deleteTodolistHandler} >
-                    <DeleteIcon />
+                    <HighlightOffIcon />
                 </IconButton >
                 {/*<ButtonComponent title={'x'} onClickHandler={deleteTodolistHandler}/>*/}
             </div>
@@ -98,7 +100,7 @@ export const TodolistItem = ({
                                 <Checkbox checked={task.isDone} onChange={changeTaskStatusHandler} />
                                 <EditableSpan value={task.title} onChange={changeTaskTitleHandler}/>
                                 <IconButton onClick={deleteTaskHandler}>
-                                    <DeleteIcon />
+                                    <BackspaceIcon />
                                 </IconButton>
                                 {/*<ButtonComponent title={"x"} onClickHandler={deleteTaskHandler}/>*/}
                             </ListItem>
@@ -107,17 +109,20 @@ export const TodolistItem = ({
                 </List>
             )}
             <div>
-                <Button variant={filter === 'all' ? 'outlined' : 'text'}
+                <Button variant={filter === 'all' ? 'outlined' : 'contained'}
+                        size="small"
                         color={filter === 'all' ? 'inherit' : 'primary'}
                         onClick={() => changeFilterHandler('all')}>
                     All
                 </Button>
-                <Button variant={filter === 'active' ? 'outlined' : 'text'}
+                <Button variant={filter === 'active' ? 'outlined' : 'contained'}
+                        size="small"
                         color={filter === 'active' ? 'inherit' : 'primary'}
                         onClick={() => changeFilterHandler('active')}>
                     Active
                 </Button>
-                <Button variant={filter === 'completed' ? 'outlined' : 'text'}
+                <Button variant={filter === 'completed' ? 'outlined' : 'contained'}
+                        size="small"
                         color={filter === 'completed' ? 'inherit' : 'secondary'}
                         onClick={() => changeFilterHandler('completed')}>
                     Completed
