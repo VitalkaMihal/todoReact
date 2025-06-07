@@ -94,10 +94,11 @@ export const TodolistItem = ({
                         }
 
                         return (
-                            <ListItem key={task.id} className={task.isDone ? 'is-done' : ''}>
+                            <ListItem disablePadding
+                                key={task.id} className={task.isDone ? 'is-done' : ''}>
                                 {/*<input type="checkbox" checked={task.isDone}*/}
                                 {/*       onChange={changeTaskStatusHandler}/>*/}
-                                <Checkbox checked={task.isDone} onChange={changeTaskStatusHandler} />
+                                <Checkbox size="small" checked={task.isDone} onChange={changeTaskStatusHandler} />
                                 <EditableSpan value={task.title} onChange={changeTaskTitleHandler}/>
                                 <IconButton onClick={deleteTaskHandler}>
                                     <BackspaceIcon />
