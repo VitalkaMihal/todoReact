@@ -65,7 +65,6 @@ export const App = () => {
 
     const changeFilter = (todolistId: string, filter: FilterValues) => {
         setTodoLists(todoLists.map(todoList => todoList.id === todolistId ? {...todoList, filter} : todoList))
-        console.log(filter)
     }
 
     const createTaskHandler = (todolistId: string, title: string) => {
@@ -125,14 +124,14 @@ export const App = () => {
                 </Toolbar>
             </AppBar>
             <Container maxWidth={'lg'}>
-                <Grid container>
-                    <CreateItemForm onCreateItem={createTodolist}/>
+                <Grid container sx={{ p: '20px 0' }}>
+                    <CreateItemForm onCreateItem={createTodolist} />
                 </Grid>
                 <Grid container spacing={4}>
                     {todoLists.map(todoList => {
                         return (
                             <Grid key={todoList.id}>
-                                <Paper>
+                                <Paper sx={{ p: '0 20px 20px 20px' }}>
                                 <TodolistItem key={todoList.id}
                                               id={todoList.id}
                                               title={todoList.title}

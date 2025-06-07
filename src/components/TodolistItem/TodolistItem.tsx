@@ -6,9 +6,10 @@ import {EditableSpan} from "../EditableSpan/EditableSpan.tsx";
 import IconButton from '@mui/material/IconButton'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import BackspaceIcon from '@mui/icons-material/Backspace';
-import {Button, Checkbox} from "@mui/material";
+import {Box, Button, Checkbox} from "@mui/material";
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
+import {containerSx, getListItemSx} from "./Todolistitems.styles.ts";
 
 
 type TodolistPropsType = {
@@ -95,11 +96,14 @@ export const TodolistItem = ({
 
                         return (
                             <ListItem disablePadding
+                                      sx={getListItemSx(task.isDone)}
                                 key={task.id} className={task.isDone ? 'is-done' : ''}>
                                 {/*<input type="checkbox" checked={task.isDone}*/}
                                 {/*       onChange={changeTaskStatusHandler}/>*/}
-                                <Checkbox size="small" checked={task.isDone} onChange={changeTaskStatusHandler} />
-                                <EditableSpan value={task.title} onChange={changeTaskTitleHandler}/>
+                                <Box>
+                                    <Checkbox size="small" checked={task.isDone} onChange={changeTaskStatusHandler} />
+                                    <EditableSpan value={task.title} onChange={changeTaskTitleHandler}/>
+                                </Box>
                                 <IconButton onClick={deleteTaskHandler}>
                                     <BackspaceIcon />
                                 </IconButton>
@@ -109,26 +113,26 @@ export const TodolistItem = ({
                     })}
                 </List>
             )}
-            <div>
-                <Button variant={filter === 'all' ? 'outlined' : 'contained'}
-                        size="small"
-                        color={filter === 'all' ? 'inherit' : 'primary'}
-                        onClick={() => changeFilterHandler('all')}>
-                    All
-                </Button>
-                <Button variant={filter === 'active' ? 'outlined' : 'contained'}
-                        size="small"
-                        color={filter === 'active' ? 'inherit' : 'primary'}
-                        onClick={() => changeFilterHandler('active')}>
-                    Active
-                </Button>
-                <Button variant={filter === 'completed' ? 'outlined' : 'contained'}
-                        size="small"
-                        color={filter === 'completed' ? 'inherit' : 'secondary'}
-                        onClick={() => changeFilterHandler('completed')}>
-                    Completed
-                </Button>
-
+                <Box sx={containerSx}>
+                    <Button variant={filter === 'all' ? 'outlined' : 'contained'}
+                            size="small"
+                            color={filter === 'all' ? 'inherit' : 'primary'}
+                            onClick={() => changeFilterHandler('all')}>
+                        All
+                    </Button>
+                    <Button variant={filter === 'active' ? 'outlined' : 'contained'}
+                            size="small"
+                            color={filter === 'active' ? 'inherit' : 'primary'}
+                            onClick={() => changeFilterHandler('active')}>
+                        Active
+                    </Button>
+                    <Button variant={filter === 'completed' ? 'outlined' : 'contained'}
+                            size="small"
+                            color={filter === 'completed' ? 'inherit' : 'secondary'}
+                            onClick={() => changeFilterHandler('completed')}>
+                        Completed
+                    </Button>
+                </Box>
                 {/*<ButtonComponent title={'All'}*/}
                 {/*        className={filter === 'all' ? 'active-filter' : ''}*/}
                 {/*        onClickHandler={() => changeFilterHandler("all")}/>*/}
@@ -140,7 +144,6 @@ export const TodolistItem = ({
                 {/*        className={filter === 'completed' ? 'active-filter' : ''}*/}
                 {/*        onClickHandler={() => changeFilterHandler("completed")*/}
                 {/*        }/>*/}
-            </div>
         </div>
     )
 }
