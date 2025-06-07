@@ -5,12 +5,13 @@ import {v1} from "uuid";
 import {CreateItemForm} from "./components/CreateItemForm/CreateItemForm.tsx";
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
+import {containerSx} from "./components/TodolistItem/Todolistitems.styles.ts";
+import {NavButton} from "./components/Button/NavButton.ts";
 
 export type Task = {
     id: string;
@@ -113,13 +114,17 @@ export const App = () => {
 
     return (
         <div className="app">
-            <AppBar position="static">
+            <AppBar position="static" sx={{ mb: '30px' }} >
                 <Toolbar>
-                    <Container maxWidth={'lg'}>
+                    <Container maxWidth={'lg'} sx={containerSx}>
                         <IconButton color="inherit">
                             <MenuIcon/>
                         </IconButton>
-                        <Button color="inherit">Sign in</Button>
+                        <div>
+                            <NavButton>Sign in</NavButton>
+                            <NavButton>Sign up</NavButton>
+                            <NavButton background={'dodgerblue'}>Faq</NavButton>
+                        </div>
                     </Container>
                 </Toolbar>
             </AppBar>
