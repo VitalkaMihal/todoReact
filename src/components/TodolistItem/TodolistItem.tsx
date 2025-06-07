@@ -108,17 +108,17 @@ export const TodolistItem = ({
             )}
             <div>
                 <Button variant={filter === 'all' ? 'outlined' : 'text'}
-                        color={'inherit'}
+                        color={filter === 'all' ? 'inherit' : 'primary'}
                         onClick={() => changeFilterHandler('all')}>
                     All
                 </Button>
                 <Button variant={filter === 'active' ? 'outlined' : 'text'}
-                        color={'primary'}
+                        color={filter === 'active' ? 'inherit' : 'primary'}
                         onClick={() => changeFilterHandler('active')}>
                     Active
                 </Button>
                 <Button variant={filter === 'completed' ? 'outlined' : 'text'}
-                        color={'secondary'}
+                        color={filter === 'completed' ? 'inherit' : 'secondary'}
                         onClick={() => changeFilterHandler('completed')}>
                     Completed
                 </Button>

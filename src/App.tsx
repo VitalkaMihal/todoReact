@@ -126,7 +126,6 @@ export const App = () => {
             </AppBar>
             <Container maxWidth={'lg'}>
                 <Grid container>
-
                     <CreateItemForm onCreateItem={createTodolist}/>
                 </Grid>
                 <Grid container spacing={4}>
