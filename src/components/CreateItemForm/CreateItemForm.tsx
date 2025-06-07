@@ -1,5 +1,7 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button, TextField} from "@mui/material";
+import { TextField} from "@mui/material";
+import IconButton from '@mui/material/IconButton'
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 type CreateItemFormProps = {
     onCreateItem: (title: string) => void
@@ -47,7 +49,9 @@ export const CreateItemForm = ({ onCreateItem }: CreateItemFormProps) => {
             {/*       onKeyDown={createItemOnEnterHandler}*/}
             {/*       className={error ? 'error' : ''}*/}
             {/*/>*/}
-            <Button variant="contained" onClick={createItemHandler}>+</Button>
+            <IconButton onClick={createItemHandler}>
+                <ControlPointIcon/>
+            </IconButton>
             {/*<ButtonComponent title={'+'} onClickHandler={createItemHandler}/>*/}
             {/*{error && <div className={'error-message'}>{error}</div>}*/}
         </div>
