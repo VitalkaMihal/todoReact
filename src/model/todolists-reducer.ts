@@ -5,18 +5,17 @@ const initialState: TodoList[] = []
 
 type deleteTodolistAT = ReturnType<typeof deleteTodolistAC>
 type createTodolistAT = ReturnType<typeof createTodolistAC>
+type ActionType = deleteTodolistAT | createTodolistAT
 
 export const todolistsReducer = (todolists: TodoList[] = initialState,
-                                 action: deleteTodolistAT | createTodolistAT) => {
+                                 action: ActionType) => {
     switch (action.type) {
         case "delete_todolist":
-            return todolists.filter(todoList => todoList.id !== action.payload.id)
+            const {id} = action.payload
+            return todolists.filter(todoList => todoList.id !== id)
         case "create_todolist":
-            const newTodo: TodoList = {
-                id: v1(),
-                title: action.payload.title,
-                filter: "all"
-            }
+            const {title} = action.payload
+            const newTodo: TodoList = {id: v1(), title, filter: "all"}
             return [...todolists, newTodo]
 
         default:
@@ -27,17 +26,13 @@ export const todolistsReducer = (todolists: TodoList[] = initialState,
 export const deleteTodolistAC = (id: string) => {
     return {
         type: "delete_todolist",
-        payload: {
-            id: id
-        }
+        payload: { id }
     } as const
 }
 
 export const createTodolistAC = (title: string) => {
     return {
         type: "create_todolist",
-        payload: {
-            title: title
-        }
+        payload: { title }
     } as const
 }
