@@ -3,8 +3,8 @@ import {v1} from "uuid";
 
 const initialState: TodoList[] = []
 
-type deleteTodolistAT = ReturnType<typeof deleteTodolistAC>
-type createTodolistAT = ReturnType<typeof createTodolistAC>
+export type deleteTodolistAT = ReturnType<typeof deleteTodolistAC>
+export type createTodolistAT = ReturnType<typeof createTodolistAC>
 type changeTodolistTitleAT =  ReturnType<typeof changeTodolistTitleAC>
 type changeTodolistFilterAT =  ReturnType<typeof changeTodolistFilterAC>
 type ActionType = deleteTodolistAT | createTodolistAT | changeTodolistTitleAT | changeTodolistFilterAT
