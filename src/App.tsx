@@ -26,7 +26,7 @@ import {
     createNewTasksAC,
     createTaskAC,
     deleteAllTasksAC,
-    deleteTaskAC,
+    deleteTaskAC, removeTasksFromTodolistAC,
     tasksReducer
 } from "./model/tasks-reducer.ts";
 
@@ -86,7 +86,7 @@ export const App = () => {
     const deleteTodolist = (todolistId: string) => {
         const action = deleteTodolistAC(todolistId)
         dispatchTodolist(action)
-        delete tasks[action.payload.id]
+        dispatchTasks(removeTasksFromTodolistAC(action.payload.id))
     }
 
     const createTodolist = (title: string) => {

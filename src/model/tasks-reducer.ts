@@ -2,13 +2,17 @@ import type {TasksState} from '../App'
 import {createTodolistAT, deleteTodolistAT} from "./todolists-reducer.ts";
 import {v1} from "uuid";
 
+
 type createTaskAT = ReturnType<typeof createTaskAC>
 type deleteTaskAT = ReturnType<typeof deleteTaskAC>
 type changeTaskStatusAT = ReturnType<typeof changeTaskStatusAC>
 type deleteAllTasksAT = ReturnType<typeof deleteAllTasksAC>
 type createNewTasksAT = ReturnType<typeof createNewTasksAC>
 type changeTaskTitleAT = ReturnType<typeof changeTaskTitleAC>
-type TasksActionType = deleteTodolistAT | createTodolistAT | createTaskAT | deleteTaskAT | changeTaskStatusAT | deleteAllTasksAT | createNewTasksAT | changeTaskTitleAT
+type removeTasksFromTodolistAT = ReturnType<typeof removeTasksFromTodolistAC>
+type TasksActionType = deleteTodolistAT | createTodolistAT | createTaskAT
+    | deleteTaskAT | changeTaskStatusAT | deleteAllTasksAT | createNewTasksAT
+    | changeTaskTitleAT | removeTasksFromTodolistAT ;
 
 export const tasksReducer = (state: TasksState, action: TasksActionType): TasksState => {
     switch (action.type) {
@@ -34,7 +38,7 @@ export const tasksReducer = (state: TasksState, action: TasksActionType): TasksS
                 const stateCopy = {...state}
                 return {...stateCopy, [todolistId]: []}
             }
-        case "create_new_tasks": {
+        case "create_todolist": {
             return {...state, [action.payload.id]: []}
         }
         case "change_task_title": {
@@ -42,6 +46,12 @@ export const tasksReducer = (state: TasksState, action: TasksActionType): TasksS
             const stateCopy = {...state}
             return {...stateCopy,
                 [todolistId]: stateCopy[todolistId].map(task => task.id === taskId ? {...task, title}: task)}
+        }
+        case "remove_tasks_from_todolist": {
+            const {id} = action.payload
+            const stateCopy = {...state}
+            delete stateCopy[id]
+            return stateCopy
         }
         default:
             throw new Error(`Unknown action type ${action.type}`)
@@ -79,7 +89,14 @@ export const deleteAllTasksAC = (todolistId: string) => {
 
 export const createNewTasksAC = (id: string) => {
     return {
-        type: "create_new_tasks",
+        type: "create_todolist",
+        payload: { id }
+    } as const
+}
+
+export const removeTasksFromTodolistAC = (id: string) => {
+    return {
+        type: "remove_tasks_from_todolist",
         payload: { id }
     } as const
 }
