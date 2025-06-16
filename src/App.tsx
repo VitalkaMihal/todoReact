@@ -22,7 +22,7 @@ import {
     todolistsReducer
 } from "./model/todolists-reducer.ts";
 import {
-    changeTaskStatusAC,
+    changeTaskStatusAC, changeTaskTitleAC,
     createNewTasksAC,
     createTaskAC,
     deleteAllTasksAC,
@@ -103,6 +103,7 @@ export const App = () => {
         dispatchTodolist(changeTodolistTitleAC({id, title}))
     }
 
+
     const deleteTask = (taskId: string, todoListId: string) => {
         dispatchTasks(deleteTaskAC(taskId, todoListId))
     }
@@ -110,8 +111,6 @@ export const App = () => {
     const createTaskHandler = (todolistId: string, title: string) => {
         dispatchTasks(createTaskAC(todolistId, title))
     }
-
-
 
     const deleteAll = (todolistId: string) => {
         dispatchTasks(deleteAllTasksAC(todolistId))
@@ -133,7 +132,7 @@ export const App = () => {
     }
 
     const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, title} : task)})
+       dispatchTasks(changeTaskTitleAC(todolistId, taskId, title))
     }
 
 

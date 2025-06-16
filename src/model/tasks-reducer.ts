@@ -7,7 +7,8 @@ type deleteTaskAT = ReturnType<typeof deleteTaskAC>
 type changeTaskStatusAT = ReturnType<typeof changeTaskStatusAC>
 type deleteAllTasksAT = ReturnType<typeof deleteAllTasksAC>
 type createNewTasksAT = ReturnType<typeof createNewTasksAC>
-type TasksActionType = deleteTodolistAT | createTodolistAT | createTaskAT | deleteTaskAT | changeTaskStatusAT | deleteAllTasksAT | createNewTasksAT
+type changeTaskTitleAT = ReturnType<typeof changeTaskTitleAC>
+type TasksActionType = deleteTodolistAT | createTodolistAT | createTaskAT | deleteTaskAT | changeTaskStatusAT | deleteAllTasksAT | createNewTasksAT | changeTaskTitleAT
 
 export const tasksReducer = (state: TasksState, action: TasksActionType): TasksState => {
     switch (action.type) {
@@ -35,6 +36,12 @@ export const tasksReducer = (state: TasksState, action: TasksActionType): TasksS
             }
         case "create_new_tasks": {
             return {...state, [action.payload.id]: []}
+        }
+        case "change_task_title": {
+            const {todolistId, taskId, title} = action.payload
+            const stateCopy = {...state}
+            return {...stateCopy,
+                [todolistId]: stateCopy[todolistId].map(task => task.id === taskId ? {...task, title}: task)}
         }
         default:
             throw new Error(`Unknown action type ${action.type}`)
@@ -74,5 +81,12 @@ export const createNewTasksAC = (id: string) => {
     return {
         type: "create_new_tasks",
         payload: { id }
-    }as const
+    } as const
+}
+
+export const changeTaskTitleAC = (todolistId: string, taskId: string, title: string) => {
+    return {
+        type: "change_task_title",
+        payload: {todolistId, taskId, title}
+    } as const
 }
