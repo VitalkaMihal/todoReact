@@ -56,8 +56,8 @@ test('correct task should change its status', () => {
     const endState = tasksReducer(startState,
         changeTaskStatusAC('todoList2','3', true))
 
-    expect(endState['todoList2'][2].isDone).toBe(true)
-    expect(endState['todoList1'][2].isDone).toBe(false)
+    expect(endState['todoList2'][2].isDone).toBeTruthy()
+    expect(endState['todoList1'][2].isDone).toBeFalsy()
 })
 
 test('all tasks should be deleted to correct array', () => {
