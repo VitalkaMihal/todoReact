@@ -3,12 +3,12 @@ import {TasksState} from "../App.tsx";
 import {
     changeTaskStatusAC,
     changeTaskTitleAC,
-    createNewTasksAC,
     createTaskAC,
     deleteAllTasksAC,
-    deleteTaskAC, removeTasksFromTodolistAC,
+    deleteTaskAC,
     tasksReducer
 } from './tasks-reducer.ts';
+import {createTodolistAC, deleteTodolistAC} from "./todolists-reducer.ts";
 
 
 let startState: TasksState = {}
@@ -77,7 +77,7 @@ test('correct task should change its title', () => {
 })
 
 test('new property with new array should be added when new todolist added', () => {
-  const endState = tasksReducer(startState, createNewTasksAC('todoList3'))
+  const endState = tasksReducer(startState, createTodolistAC('todoList3'))
 
     const keys = Object.keys(endState)
     const newKey = keys.find(k => k != 'todoList1' && k != 'todoList2')
@@ -90,7 +90,7 @@ test('new property with new array should be added when new todolist added', () =
 })
 
 test('correct tasks should be deletes when todolist deleted', () => {
-    const endState = tasksReducer(startState, removeTasksFromTodolistAC('todoList2'))
+    const endState = tasksReducer(startState, deleteTodolistAC('todoList2'))
 
     expect(Object.keys(endState).length).toBe(1)
     expect(endState['todoList1']).toBeDefined()

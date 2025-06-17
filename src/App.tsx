@@ -23,10 +23,9 @@ import {
 } from "./model/todolists-reducer.ts";
 import {
     changeTaskStatusAC, changeTaskTitleAC,
-    createNewTasksAC,
     createTaskAC,
     deleteAllTasksAC,
-    deleteTaskAC, removeTasksFromTodolistAC,
+    deleteTaskAC,
     tasksReducer
 } from "./model/tasks-reducer.ts";
 
@@ -86,13 +85,13 @@ export const App = () => {
     const deleteTodolist = (todolistId: string) => {
         const action = deleteTodolistAC(todolistId)
         dispatchTodolist(action)
-        dispatchTasks(removeTasksFromTodolistAC(action.payload.id))
+        dispatchTasks(action)
     }
 
     const createTodolist = (title: string) => {
         const action = createTodolistAC(title)
         dispatchTodolist(action)
-        dispatchTasks(createNewTasksAC(action.payload.id))
+        dispatchTasks(action)
     }
 
     const changeFilter = (id: string, filter: FilterValues) => {
@@ -150,7 +149,7 @@ export const App = () => {
     const changeMode = () => {
         setThemeMode(themeMode === 'light' ? 'dark' : 'light')
     }
-
+console.log(tasks)
     return (
         <ThemeProvider theme={theme}>
             <div className="app">
