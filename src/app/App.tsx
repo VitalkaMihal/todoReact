@@ -58,7 +58,7 @@ export const App = () => {
     const dispatch = useAppDispatch()
 
     const deleteTodolist = (todolistId: string) => {
-        dispatch(deleteTodolistAC(todolistId))
+        dispatch(deleteTodolistAC({id: todolistId}))
     }
 
     const createTodolist = (title: string) => {
@@ -74,8 +74,8 @@ export const App = () => {
     }
 
 
-    const deleteTask = (taskId: string, todoListId: string) => {
-        dispatch(deleteTaskAC(taskId, todoListId))
+    const deleteTask = (todolistId: string, taskId: string ) => {
+        dispatch(deleteTaskAC({ todolistId, taskId }))
     }
 
     const createTaskHandler = (todolistId: string, title: string) => {
@@ -83,11 +83,11 @@ export const App = () => {
     }
 
     const deleteAll = (todolistId: string) => {
-        dispatch(deleteAllTasksAC(todolistId))
+        dispatch(deleteAllTasksAC({todolistId}))
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(todolistId, taskId, isDone))
+        dispatch(changeTaskStatusAC({todolistId, taskId, isDone}))
     }
 
     const setTodoFilteredTask = (todolistId: string, filter: FilterValues) => {
@@ -102,7 +102,7 @@ export const App = () => {
     }
 
     const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
-        dispatch(changeTaskTitleAC(todolistId, taskId, title))
+        dispatch(changeTaskTitleAC({todolistId, taskId, title}))
     }
 
 
