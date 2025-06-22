@@ -1,5 +1,5 @@
 import {v1} from 'uuid'
-import type {TodoList} from '../App'
+import type {TodoList} from '../app/App.tsx'
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,

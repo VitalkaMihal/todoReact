@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import {TasksState, TodoList} from "../App.tsx";
+import {TasksState, TodoList} from "../app/App.tsx";
 import {createTodolistAC, todolistsReducer} from "./todolists-reducer.ts";
 import {tasksReducer} from "./tasks-reducer.ts";
 

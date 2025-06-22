@@ -1,4 +1,4 @@
-import {FilterValues, Task} from "../../App.tsx";
+import {FilterValues, Task} from "../../app/App.tsx";
 import {ButtonComponent} from "../Button/Button.tsx";
 import {ChangeEvent} from "react";
 import {CreateItemForm} from "../CreateItemForm/CreateItemForm.tsx";
