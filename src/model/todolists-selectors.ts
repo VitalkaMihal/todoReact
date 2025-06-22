@@ -1,4 +1,4 @@
-import type { Todolist } from '../app/App'
+import type { TodoList } from '../app/App'
 import type { RootState } from '../app/store'
 
-export const selectTodolists = (state: RootState): Todolist[] => state.todolists
+export const selectTodolists = (state: RootState): TodoList[] => state.todolists
