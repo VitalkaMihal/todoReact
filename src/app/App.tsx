@@ -1,17 +1,10 @@
 import './App.css'
 import {TodolistItem} from '../components/TodolistItem/TodolistItem.tsx'
 import {CreateItemForm} from "../components/CreateItemForm/CreateItemForm.tsx";
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
-import {containerSx} from "../components/TodolistItem/Todolistitems.styles.ts";
-import {NavButton} from "../components/Button/NavButton.ts";
 import {ThemeProvider} from '@mui/material/styles'
-import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'
 import {
     changeTodolistFilterAC,
@@ -30,8 +23,8 @@ import {useAppSelector} from "../common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
 import {selectTodolists} from "../model/todolists-selectors.ts";
 import {selectTasks} from "../model/tasks-selectors.ts";
-import {selectThemeMode} from "../model/app-selectors.ts";
-import {changeThemeModeAC} from "./app-reducer.ts";
+import {Header} from "@/Header.tsx";
+import {selectThemeMode} from "@/model/app-selectors.ts";
 import {getTheme} from "@/common/theme/theme.ts";
 
 export type Task = {
@@ -57,6 +50,8 @@ export const App = () => {
     const todoLists = useAppSelector(selectTodolists)
     const tasks = useAppSelector(selectTasks)
     const themeMode = useAppSelector(selectThemeMode)
+
+    const theme = getTheme(themeMode)
 
     const dispatch = useAppDispatch()
 
@@ -108,31 +103,11 @@ export const App = () => {
         dispatch(changeTaskTitleAC({todolistId, taskId, title}))
     }
 
-    const theme = getTheme(themeMode)
-
-    const changeMode = () => {
-        dispatch(changeThemeModeAC({themeMode: themeMode === 'light' ? 'dark' : 'light'}))
-    }
-
     return (
         <ThemeProvider theme={theme}>
             <div className="app">
                 <CssBaseline />
-                <AppBar position="static" sx={{mb: '30px'}}>
-                    <Toolbar>
-                        <Container maxWidth={'lg'} sx={containerSx}>
-                            <IconButton color="inherit">
-                                <MenuIcon/>
-                            </IconButton>
-                            <div>
-                                <NavButton>Sign in</NavButton>
-                                <NavButton>Sign up</NavButton>
-                                <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
-                                <Switch color={'default'} onChange={changeMode} />
-                            </div>
-                        </Container>
-                    </Toolbar>
-                </AppBar>
+                    <Header />
                 <Container maxWidth={'lg'}>
                     <Grid container sx={{p: '20px 0'}}>
                         <CreateItemForm onCreateItem={createTodolist}/>
