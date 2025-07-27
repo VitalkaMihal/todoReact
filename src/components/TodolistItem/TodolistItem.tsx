@@ -4,7 +4,6 @@ import {ChangeEvent} from "react";
 import {CreateItemForm} from "../CreateItemForm/CreateItemForm.tsx";
 import {EditableSpan} from "../EditableSpan/EditableSpan.tsx";
 import IconButton from '@mui/material/IconButton'
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import {Box, Button, Checkbox} from "@mui/material";
 import List from '@mui/material/List'
@@ -18,9 +17,10 @@ import {
     deleteTaskAC
 } from "@/model/tasks-reducer.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {changeTodolistFilterAC, changeTodolistTitleAC, deleteTodolistAC} from "@/model/todolists-reducer.ts";
+import {changeTodolistFilterAC} from "@/model/todolists-reducer.ts";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {selectTasks} from "@/model/tasks-selectors.ts";
+import {TodolistTitle} from "@/TodolistTitle.tsx";
 
 
 type Props = {
@@ -30,7 +30,7 @@ type Props = {
 
 export const TodolistItem = ({todolist}: Props) => {
     const tasks = useAppSelector(selectTasks)
-    const {id, title, filter} = todolist
+    const {id, filter} = todolist
     const dispatch = useAppDispatch()
 
         const todolistTask = tasks[id]
@@ -50,31 +50,16 @@ export const TodolistItem = ({todolist}: Props) => {
         dispatch(deleteAllTasksAC({todolistId: id}))
     }
 
-    const deleteTodolistHandler = () => {
-        dispatch(deleteTodolistAC({id}))
-    }
+
 
     const createTaskHandler = (title: string) => {
         dispatch(createTaskAC(id, title))
     }
 
-    const changeTodolistTitleHandler = (title: string) => {
-        dispatch(changeTodolistTitleAC({id, title}))
-    }
-
-
-
 
     return (
         <div>
-            <div className={'container'}>
-                <h3>
-                    <EditableSpan value={title} onChange={changeTodolistTitleHandler}/>
-                </h3>
-                <IconButton onClick={deleteTodolistHandler} >
-                    <HighlightOffIcon />
-                </IconButton >
-            </div>
+       <TodolistTitle todolist={todolist}/>
             <CreateItemForm onCreateItem={createTaskHandler}/>
             <ButtonComponent title={'delete all'} onClickHandler={deleteAllHandler}/>
             {filteredTasks.length === 0 ? (
