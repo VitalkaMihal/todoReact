@@ -7,11 +7,9 @@ import {TodolistTitle} from "@/TodolistTitle.tsx";
 import {FilterButtons} from "@/FilterButtons.tsx";
 import {Tasks} from "@/Tasks.tsx";
 
-
 type Props = {
     todolist: TodoList
 }
-
 
 export const TodolistItem = ({todolist}: Props) => {
     const {id} = todolist
@@ -21,11 +19,9 @@ export const TodolistItem = ({todolist}: Props) => {
         dispatch(deleteAllTasksAC({todolistId: id}))
     }
 
-
     const createTaskHandler = (title: string) => {
         dispatch(createTaskAC(id, title))
     }
-
 
     return (
         <div>
