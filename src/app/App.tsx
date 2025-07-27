@@ -10,16 +10,18 @@ import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import {containerSx} from "../components/TodolistItem/Todolistitems.styles.ts";
 import {NavButton} from "../components/Button/NavButton.ts";
-import {createTheme, ThemeProvider} from '@mui/material/styles'
+import {ThemeProvider} from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'
 import {
-    changeTodolistFilterAC, changeTodolistTitleAC,
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
     createTodolistAC,
     deleteTodolistAC
 } from "../model/todolists-reducer.ts";
 import {
-    changeTaskStatusAC, changeTaskTitleAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
     createTaskAC,
     deleteAllTasksAC,
     deleteTaskAC
@@ -30,7 +32,7 @@ import {selectTodolists} from "../model/todolists-selectors.ts";
 import {selectTasks} from "../model/tasks-selectors.ts";
 import {selectThemeMode} from "../model/app-selectors.ts";
 import {changeThemeModeAC} from "./app-reducer.ts";
-import {getTheme} from "../common/theme/theme.ts";
+import {getTheme} from "@/common/theme/theme.ts";
 
 export type Task = {
     id: string;
