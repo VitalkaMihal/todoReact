@@ -1,6 +1,5 @@
 import './App.css'
 import {TodolistItem} from '../components/TodolistItem/TodolistItem.tsx'
-import { useState} from "react";
 import {CreateItemForm} from "../components/CreateItemForm/CreateItemForm.tsx";
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
@@ -29,8 +28,7 @@ import {useAppSelector} from "../common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
 import {selectTodolists} from "../model/todolists-selectors.ts";
 import {selectTasks} from "../model/tasks-selectors.ts";
-
-type ThemeMode = 'dark' | 'light'
+import {selectThemeMode} from "../model/app-selectors.ts";
 
 export type Task = {
     id: string;
@@ -54,6 +52,7 @@ export const App = () => {
 
     const todoLists = useAppSelector(selectTodolists)
     const tasks = useAppSelector(selectTasks)
+    const themeMode = useAppSelector(selectThemeMode)
 
     const dispatch = useAppDispatch()
 
@@ -104,9 +103,6 @@ export const App = () => {
     const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
         dispatch(changeTaskTitleAC({todolistId, taskId, title}))
     }
-
-
-    const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
     const theme = createTheme({
         palette: {
