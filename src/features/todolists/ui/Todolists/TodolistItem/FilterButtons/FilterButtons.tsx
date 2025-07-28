@@ -1,5 +1,5 @@
 import {Box, Button} from "@mui/material";
-import {containerSx} from "@/features/todolists/ui/Todolists/TodolistItem/Todolistitems.styles.ts";
+import {containerSx} from '@/common/styles/container.styles.ts'
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {changeTodolistFilterAC, FilterValues, TodoList} from "@/features/todolists/model/todolists-reducer.ts";
 
