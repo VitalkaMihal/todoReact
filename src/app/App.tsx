@@ -7,24 +7,6 @@ import {selectThemeMode} from "@/app/app-selectors.ts";
 import {getTheme} from "@/common/theme/theme.ts";
 import {Main} from "@/app/Main.tsx";
 
-export type Task = {
-    id: string;
-    title: string;
-    isDone: boolean;
-}
-
-export type FilterValues = 'all' | 'active' | 'completed'
-
-export type TodoList = {
-    id: string;
-    title: string;
-    filter: FilterValues;
-}
-
-export type TasksState = {
-    [key: string]: Task[]
-}
-
 export const App = () => {
 
 
