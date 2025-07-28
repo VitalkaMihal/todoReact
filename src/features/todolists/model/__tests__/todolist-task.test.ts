@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
-import {TasksState, TodoList} from "../app/App.tsx";
-import {createTodolistAC, todolistsReducer} from "./todolists-reducer.ts";
-import {tasksReducer} from "./tasks-reducer.ts";
+import {TasksState, TodoList} from "@/app/App.tsx";
+import {createTodolistAC, todolistsReducer} from "@/todolists-reducer.ts";
+import {tasksReducer} from "@/tasks-reducer.ts";
 
 
 test('ids should be equals', () => {

@@ -1,10 +1,10 @@
-import {getListItemSx} from "@/components/TodolistItem/Todolistitems.styles.ts";
+import {getListItemSx} from "@/features/todolists/ui/Todolists/TodolistItem/Todolistitems.styles.ts";
 import {Box, Checkbox} from "@mui/material";
-import {EditableSpan} from "@/components/EditableSpan/EditableSpan.tsx";
+import {EditableSpan} from "@/common/components/EditableSpan/EditableSpan.tsx";
 import IconButton from "@mui/material/IconButton";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import ListItem from "@mui/material/ListItem";
-import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC} from "@/model/tasks-reducer.ts";
+import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC} from "@/features/todolists/model/tasks-reducer.ts";
 import {ChangeEvent} from "react";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {Task} from "@/app/App.tsx";

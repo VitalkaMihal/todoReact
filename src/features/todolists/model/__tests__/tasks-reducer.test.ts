@@ -1,5 +1,5 @@
 import { beforeEach, expect, test } from 'vitest'
-import {TasksState} from "../app/App.tsx";
+import {TasksState} from "@/app/App.tsx";
 import {
     changeTaskStatusAC,
     changeTaskTitleAC,
@@ -7,8 +7,8 @@ import {
     deleteAllTasksAC,
     deleteTaskAC,
     tasksReducer
-} from './tasks-reducer.ts';
-import {createTodolistAC, deleteTodolistAC} from "./todolists-reducer.ts";
+} from '../tasks-reducer.ts';
+import {createTodolistAC, deleteTodolistAC} from "../todolists-reducer.ts";
 
 
 let startState: TasksState = {}
