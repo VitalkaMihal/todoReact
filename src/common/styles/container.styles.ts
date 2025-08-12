@@ -1,6 +1,6 @@
-import {CSSProperties} from "react";
+import { CSSProperties } from "react"
 
 export const containerSx: CSSProperties = {
-    display: 'flex',
-    justifyContent: 'space-between',
+  display: "flex",
+  justifyContent: "space-between",
 }
