@@ -1,5 +1,5 @@
 import { expect, test } from "vitest"
-import { createTodolistAC, TodoList, todolistsReducer } from "../todolists-reducer.ts"
+import { createTodolistAC, TodoList, todolistsReducer } from "../todolists-slice.ts"
 import { tasksReducer, TasksState } from "../tasks-reducer.ts"
 
 test("ids should be equals", () => {

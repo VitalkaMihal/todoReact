@@ -5,7 +5,7 @@ import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 import { TodolistTitle } from "@/features/todolists/ui/Todolists/TodolistItem/TodolistTitle/TodolistTitle.tsx"
 import { FilterButtons } from "@/features/todolists/ui/Todolists/TodolistItem/FilterButtons/FilterButtons.tsx"
 import { Tasks } from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/Tasks.tsx"
-import { TodoList } from "@/features/todolists/model/todolists-reducer"
+import { TodoList } from "@/features/todolists/model/todolists-slice.ts"
 
 type Props = {
   todolist: TodoList

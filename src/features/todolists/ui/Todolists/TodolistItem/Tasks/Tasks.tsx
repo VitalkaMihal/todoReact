@@ -1,6 +1,6 @@
 import List from "@mui/material/List"
 import { TaskItem } from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/TaskItem/TaskItem.tsx"
-import { TodoList } from "@/features/todolists/model/todolists-reducer.ts"
+import { TodoList } from "@/features/todolists/model/todolists-slice.ts"
 import { useEffect, useState } from "react"
 import { DomainTask } from "@/common/instance/tasksApi.types.ts"
 import { tasksApi } from "@/common/instance/tasksApi.ts"
