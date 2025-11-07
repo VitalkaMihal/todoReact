@@ -1,13 +1,13 @@
 import List from "@mui/material/List"
 import { TaskItem } from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/TaskItem/TaskItem.tsx"
-import { TodoList } from "@/features/todolists/model/todolists-slice.ts"
+import { Todolist } from "@/features/todolists/model/todolists-slice.ts"
 import { useEffect, useState } from "react"
 import { DomainTask } from "@/common/instance/tasksApi.types.ts"
 import { tasksApi } from "@/common/instance/tasksApi.ts"
 import { TaskStatus } from "@/common/enums/enums.ts"
 
 type Props = {
-  todolist: TodoList
+  todolist: Todolist
 }
 
 export const Tasks = ({ todolist }: Props) => {
