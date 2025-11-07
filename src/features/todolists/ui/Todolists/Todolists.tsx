@@ -4,17 +4,18 @@ import { TodolistItem } from "@/features/todolists/ui/Todolists/TodolistItem/Tod
 import { useEffect, useState } from "react"
 import { todolistsApi } from "../../api/todolistsApi"
 import { Todolist } from "@/common/instance/todolistsApi.types.ts"
+import { tasksApi } from "@/features/todolists/api/tasksApi.ts"
 
 export const Todolists = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
 
   useEffect(() => {
-    // Получаем список тудулистов
     todolistsApi.getTodolists().then((res) => {
-      const todo = res.data.map((it) => {
-        return { ...it, filter: "all" }
+      const todolists = res.data
+      setTodolists(todolists)
+      todolists.forEach((todolist) => {
+        tasksApi.getTasks(todolist.id).then((res) => console.log(res.data))
       })
-      setTodolists(todo)
     })
   }, [])
 

@@ -1,11 +1,8 @@
 import List from "@mui/material/List"
-import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
-import { selectTasks } from "@/features/todolists/model/tasks-selectors.ts"
 import { TaskItem } from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/TaskItem/TaskItem.tsx"
 import { TodoList } from "@/features/todolists/model/todolists-reducer.ts"
 import { useEffect, useState } from "react"
 import { DomainTask } from "@/common/instance/tasksApi.types.ts"
-import { todolistsApi } from "@/features/todolists/api/todolistsApi.ts"
 import { tasksApi } from "@/common/instance/tasksApi.ts"
 import { TaskStatus } from "@/common/enums/enums.ts"
 
