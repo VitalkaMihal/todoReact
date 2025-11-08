@@ -1,8 +1,9 @@
 import { createTodolistAC, deleteTodolistAC } from "./todolists-slice.ts"
 import { createAppSlice } from "@/common/utils"
 import { tasksApi } from "@/common/instance/tasksApi.ts"
-import { DomainTask } from "@/features/todolists/api/tasksApi.types.ts"
+import { DomainTask, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types.ts"
 import { TaskStatus } from "@/common/enums/enums.ts"
+import { RootState } from "@/app/store.ts"
 
 export type Task = {
   id: string
@@ -61,12 +62,42 @@ export const tasksSlice = createAppSlice({
         state.todolistId[index].title = action.payload.title
       }
     }),
-    changeTaskStatusAC: create.reducer<{ todolistId: string; taskId: string; isDone: boolean }>((state, action) => {
-      const task = state[action.payload.todolistId].find((task) => task.id === action.payload.taskId)
-      if (task) {
-        task.status = action.payload.isDone ? TaskStatus.Completed : TaskStatus.New
-      }
-    }),
+    changeTaskStatusTC: create.asyncThunk(
+      async (payload: { todolistId: string; taskId: string; status: TaskStatus }, thunkAPI) => {
+        const { todolistId, taskId, status } = payload
+
+        const allTodolistTasks = (thunkAPI.getState() as RootState).tasks[todolistId]
+        const task = allTodolistTasks.find((task) => task.id === taskId)
+
+        if (!task) {
+          return thunkAPI.rejectWithValue(null)
+        }
+
+        const model: UpdateTaskModel = {
+          description: task.description,
+          title: task.title,
+          priority: task.priority,
+          startDate: task.startDate,
+          deadline: task.deadline,
+          status,
+        }
+
+        try {
+          const res = await tasksApi.updateTask({ todolistId, taskId, model })
+          return { task: res.data.data.item }
+        } catch (error) {
+          return thunkAPI.rejectWithValue(null)
+        }
+      },
+      {
+        fulfilled: (state, action) => {
+          const task = state[action.payload.task.todoListId].find((task) => task.id === action.payload.task.id)
+          if (task) {
+            task.status = action.payload.task.status
+          }
+        },
+      },
+    ),
     createTaskTC: create.asyncThunk(
       async (payload: { todolistId: string; title: string }, thunkAPI) => {
         try {
@@ -94,7 +125,7 @@ export const tasksSlice = createAppSlice({
   },
 })
 
-export const { fetchTasksTC, createTaskTC, deleteTaskTC, changeTaskTitleAC, changeTaskStatusAC } = tasksSlice.actions
+export const { fetchTasksTC, createTaskTC, deleteTaskTC, changeTaskTitleAC, changeTaskStatusTC } = tasksSlice.actions
 
 export const { selectTasks } = tasksSlice.selectors
 
