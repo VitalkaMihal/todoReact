@@ -3,18 +3,22 @@ import { EditableSpan } from "@/common/components/EditableSpan/EditableSpan.tsx"
 import IconButton from "@mui/material/IconButton"
 import BackspaceIcon from "@mui/icons-material/Backspace"
 import ListItem from "@mui/material/ListItem"
-import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, Task } from "@/features/todolists/model/tasks-slice.ts"
+import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC } from "@/features/todolists/model/tasks-slice.ts"
 import { ChangeEvent } from "react"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 import { getListItemSx } from "./TaskItem.styles.ts"
+import { DomainTask } from "@/common/instance/tasksApi.types.ts"
+import { TaskStatus } from "@/common/enums/enums.ts"
 
 type Props = {
   todolistId: string
-  task: Task
+  task: DomainTask
 }
 
 export const TaskItem = ({ todolistId, task }: Props) => {
   const dispatch = useAppDispatch()
+
+  const isTaskCompleted = task.status === TaskStatus.Completed
 
   const deleteTaskHandler = () => {
     dispatch(deleteTaskAC({ todolistId, taskId: task.id }))
@@ -35,9 +39,9 @@ export const TaskItem = ({ todolistId, task }: Props) => {
   }
 
   return (
-    <ListItem disablePadding sx={getListItemSx(task.isDone)} className={task.isDone ? "is-done" : ""}>
+    <ListItem disablePadding sx={getListItemSx(isTaskCompleted)} className={isTaskCompleted ? "is-done" : ""}>
       <Box>
-        <Checkbox size="small" checked={task.isDone} onChange={changeTaskStatusHandler} />
+        <Checkbox size="small" checked={isTaskCompleted} onChange={changeTaskStatusHandler} />
         <EditableSpan value={task.title} onChange={changeTaskTitleHandler} />
       </Box>
       <IconButton onClick={deleteTaskHandler}>
