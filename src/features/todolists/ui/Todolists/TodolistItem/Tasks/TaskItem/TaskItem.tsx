@@ -3,7 +3,7 @@ import { EditableSpan } from "@/common/components/EditableSpan/EditableSpan.tsx"
 import IconButton from "@mui/material/IconButton"
 import BackspaceIcon from "@mui/icons-material/Backspace"
 import ListItem from "@mui/material/ListItem"
-import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC } from "@/features/todolists/model/tasks-slice.ts"
+import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskTC } from "@/features/todolists/model/tasks-slice.ts"
 import { ChangeEvent } from "react"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 import { getListItemSx } from "./TaskItem.styles.ts"
@@ -21,7 +21,7 @@ export const TaskItem = ({ todolistId, task }: Props) => {
   const isTaskCompleted = task.status === TaskStatus.Completed
 
   const deleteTaskHandler = () => {
-    dispatch(deleteTaskAC({ todolistId, taskId: task.id }))
+    dispatch(deleteTaskTC({ todolistId, taskId: task.id }))
   }
 
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
