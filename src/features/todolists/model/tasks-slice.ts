@@ -16,9 +16,9 @@ export const tasksSlice = createSlice({
   initialState: {} as TasksState,
   reducers: (create) => ({
     deleteTaskAC: create.reducer<{ todolistId: string; taskId: string }>((state, action) => {
-      const index = state.todolistId.findIndex((task) => task.id === action.payload.taskId)
+      const index = state.todolistId?.findIndex((task) => task.id === action.payload.taskId)
       if (index !== -1) {
-        state.todolistId.splice(index, 1)
+        state.todolistId?.splice(index, 1)
       }
     }),
     changeTaskTitleAC: create.reducer<{ todolistId: string; taskId: string; title: string }>((state, action) => {

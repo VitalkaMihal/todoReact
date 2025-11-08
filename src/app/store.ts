@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import { configureStore } from "@reduxjs/toolkit"
 import { tasksReducer, tasksSlice } from "@/features/todolists/model/tasks-slice.ts"
 import { todolistsReducer, todolistsSlice } from "@/features/todolists/model/todolists-slice.ts"
 import { appReducer, appSlice } from "./app-slice.ts"

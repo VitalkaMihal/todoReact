@@ -1,22 +1,19 @@
 import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
 import { TodolistItem } from "@/features/todolists/ui/Todolists/TodolistItem/TodolistItem.tsx"
-import { useEffect, useState } from "react"
-import { todolistsApi } from "../../api/todolistsApi"
-import { Todolist } from "@/common/instance/todolistsApi.types.ts"
-import { tasksApi } from "@/features/todolists/api/tasksApi.ts"
+import { useEffect } from "react"
+import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
+import { selectTodolists } from "@/features/todolists/model/todolists-selectors.ts"
+import { useAppDispatch } from "@/common/hooks/useAppDispatch"
+import { fetchTodolistsTC } from "@/features/todolists/model/todolists-slice.ts"
 
 export const Todolists = () => {
-  const [todolists, setTodolists] = useState<Todolist[]>([])
+  const todolists = useAppSelector(selectTodolists)
+
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    todolistsApi.getTodolists().then((res) => {
-      const todolists = res.data
-      setTodolists(todolists)
-      todolists.forEach((todolist) => {
-        tasksApi.getTasks(todolist.id).then((res) => console.log(res.data))
-      })
-    })
+    dispatch(fetchTodolistsTC())
   }, [])
 
   return (

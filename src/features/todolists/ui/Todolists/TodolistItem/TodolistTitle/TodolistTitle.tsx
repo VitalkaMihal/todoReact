@@ -2,11 +2,11 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff"
 import IconButton from "@mui/material/IconButton"
 import { EditableSpan } from "@/common/components/EditableSpan/EditableSpan.tsx"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
-import { changeTodolistTitleAC, deleteTodolistAC, TodoList } from "@/features/todolists/model/todolists-slice.ts"
+import { changeTodolistTitleTC, deleteTodolistAC, DomainTodolist } from "@/features/todolists/model/todolists-slice.ts"
 import styles from "./TodolistTitle.module.css"
 
 type Props = {
-  todolist: TodoList
+  todolist: DomainTodolist
 }
 
 export const TodolistTitle = ({ todolist }: Props) => {
@@ -19,7 +19,7 @@ export const TodolistTitle = ({ todolist }: Props) => {
   }
 
   const changeTodolistTitleHandler = (title: string) => {
-    dispatch(changeTodolistTitleAC({ id, title }))
+    dispatch(changeTodolistTitleTC({ id, title }))
   }
 
   return (
