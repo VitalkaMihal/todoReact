@@ -2,12 +2,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff"
 import IconButton from "@mui/material/IconButton"
 import { EditableSpan } from "@/common/components/EditableSpan/EditableSpan.tsx"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
-import {
-  changeTodolistTitleTC,
-  deleteTodolistAC,
-  deleteTodolistTC,
-  DomainTodolist,
-} from "@/features/todolists/model/todolists-slice.ts"
+import { changeTodolistTitleTC, deleteTodolistTC, DomainTodolist } from "@/features/todolists/model/todolists-slice.ts"
 import styles from "./TodolistTitle.module.css"
 
 type Props = {

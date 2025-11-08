@@ -11,6 +11,9 @@ export type DomainTodolist = Todolist & {
 export const todolistsSlice = createSlice({
   name: "todolists",
   initialState: [] as DomainTodolist[],
+  selectors: {
+    selectTodolists: (state) => state,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTodolistsTC.fulfilled, (_state, action) => {
@@ -114,5 +117,7 @@ export const changeTodolistTitleTC = createAsyncThunk(
 )
 
 export const { deleteTodolistAC, changeTodolistFilterAC, createTodolistAC } = todolistsSlice.actions
+
+export const { selectTodolists } = todolistsSlice.selectors
 
 export const todolistsReducer = todolistsSlice.reducer
