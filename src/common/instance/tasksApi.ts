@@ -12,7 +12,7 @@ export const tasksApi = {
   deleteTask({ todolistId, taskId }: { todolistId: string; taskId: string }) {
     return instance.delete<BaseResponse>(`/todo-lists/${todolistId}/tasks/${taskId}`)
   },
-  updateTask({ todolistId, taskId, model }: { todolistId: string; taskId: string; model: UpdateTaskModel }) {
-    return instance.put<any>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+  updateTask({ todoListId, taskId, model }: { todoListId: string; taskId: string; model: UpdateTaskModel }) {
+    return instance.put<any>(`/todo-lists/${todoListId}/tasks/${taskId}`, model)
   },
 }
