@@ -57,13 +57,7 @@ export const tasksSlice = createAppSlice({
         },
       },
     ),
-    changeTaskTitleAC: create.reducer<{ todolistId: string; taskId: string; title: string }>((state, action) => {
-      const index = state.todolistId.findIndex((task) => task.id === action.payload.taskId)
-      if (index !== -1) {
-        state.todolistId[index].title = action.payload.title
-      }
-    }),
-    changeTaskStatusTC: create.asyncThunk(
+    updateTaskTC: create.asyncThunk(
       async (task: DomainTask, { dispatch, rejectWithValue }) => {
         const { id, todoListId } = task
 
@@ -88,9 +82,9 @@ export const tasksSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          const task = state[action.payload.task.todoListId].find((task) => task.id === action.payload.task.id)
-          if (task) {
-            task.status = action.payload.task.status
+          const index = state[action.payload.task.todoListId].findIndex((task) => task.id === action.payload.task.id)
+          if (index !== -1) {
+            state[action.payload.task.todoListId][index] = { ...action.payload.task }
           }
         },
       },
@@ -113,7 +107,7 @@ export const tasksSlice = createAppSlice({
   }),
 })
 
-export const { fetchTasksTC, createTaskTC, deleteTaskTC, changeTaskTitleAC, changeTaskStatusTC } = tasksSlice.actions
+export const { fetchTasksTC, createTaskTC, deleteTaskTC, updateTaskTC } = tasksSlice.actions
 
 export const { selectTasks } = tasksSlice.selectors
 
