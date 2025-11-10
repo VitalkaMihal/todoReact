@@ -1,34 +1,75 @@
 import { beforeEach, expect, test } from "vitest"
-import {
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  createTaskAC,
-  deleteAllTasksAC,
-  deleteTaskAC,
-  tasksReducer,
-  TasksState,
-} from "../tasks-slice.ts"
+import { createTaskAC, deleteAllTasksAC, deleteTaskAC, deleteTaskTC, tasksReducer } from "../tasks-slice.ts"
 import { createTodolistAC, deleteTodolistAC } from "../todolists-slice.ts"
+import { TaskPriority, TaskStatus } from "@/common/enums/enums.ts"
 
-let startState: TasksState = {}
+const taskDefaultValues = {
+  description: "",
+  deadline: "",
+  addedDate: "",
+  startDate: "",
+  priority: TaskPriority.Low,
+  order: 0,
+}
+
+let startState = {}
 
 beforeEach(() => {
   startState = {
-    todoList1: [
-      { id: "1", title: "HTML&CSS", isDone: true },
-      { id: "2", title: "JS", isDone: true },
-      { id: "3", title: "ReactJS", isDone: false },
+    todolistId1: [
+      {
+        id: "1",
+        title: "CSS",
+        status: TaskStatus.New,
+        todoListId: "todolistId1",
+        ...taskDefaultValues,
+      },
+      {
+        id: "2",
+        title: "JS",
+        status: TaskStatus.Completed,
+        todoListId: "todolistId1",
+        ...taskDefaultValues,
+      },
+      {
+        id: "3",
+        title: "React",
+        status: TaskStatus.New,
+        todoListId: "todolistId1",
+        ...taskDefaultValues,
+      },
     ],
-    todoList2: [
-      { id: "1", title: "bread", isDone: true },
-      { id: "2", title: "milk", isDone: true },
-      { id: "3", title: "tea", isDone: false },
+    todolistId2: [
+      {
+        id: "1",
+        title: "bread",
+        status: TaskStatus.New,
+        todoListId: "todolistId2",
+        ...taskDefaultValues,
+      },
+      {
+        id: "2",
+        title: "milk",
+        status: TaskStatus.Completed,
+        todoListId: "todolistId2",
+        ...taskDefaultValues,
+      },
+      {
+        id: "3",
+        title: "tea",
+        status: TaskStatus.New,
+        todoListId: "todolistId2",
+        ...taskDefaultValues,
+      },
     ],
   }
 })
 
 test("correct task should be deleted", () => {
-  const endState = tasksReducer(startState, deleteTaskAC({ taskId: "2", todolistId: "todoList2" }))
+  const endState = tasksReducer(
+    startState,
+    deleteTaskTC.fulfilled({ taskId: "2", todolistId: "todoList2" }, "", { taskId: "2", todolistId: "todoList2" }),
+  )
 
   expect(endState["todoList1"].length).toBe(3)
   expect(endState["todoList2"].length).toBe(2)
@@ -44,7 +85,7 @@ test("correct task should be added to correct array", () => {
   expect(endState["todoList1"]?.length).toBe(3)
   expect(endState["todoList2"][0].id).toBeDefined()
   expect(endState["todoList2"][0].title).toBe("sugar")
-  expect(endState["todoList2"][0].isDone).toBe(false)
+  expect(endState["todoList2"][0].status).toBe(TaskStatus.New)
 })
 
 test("correct task should change its status", () => {

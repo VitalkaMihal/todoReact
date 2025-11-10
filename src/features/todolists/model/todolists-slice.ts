@@ -2,11 +2,13 @@ import { Todolist } from "../api/todolistsApi.types"
 import { todolistsApi } from "@/common/instance/todolistsApi.ts"
 import { createAppSlice } from "@/common/utils"
 import { setAppStatusAC } from "@/app/app-slice.ts"
+import { RequestStatus } from "@/common/types"
 
 export type FilterValues = "all" | "active" | "completed"
 
 export type DomainTodolist = Todolist & {
   filter: FilterValues
+  entityStatus: RequestStatus
 }
 
 export const todolistsSlice = createAppSlice({
@@ -31,7 +33,7 @@ export const todolistsSlice = createAppSlice({
       {
         fulfilled: (state, action) => {
           action.payload?.todolists.map((tl) => {
-            state.push({ ...tl, filter: "all" })
+            state.push({ ...tl, filter: "all", entityStatus: "idle" })
           })
         },
       },
@@ -50,7 +52,7 @@ export const todolistsSlice = createAppSlice({
       },
       {
         fulfilled: (state, action) => {
-          state.unshift({ ...action.payload, filter: "all" })
+          state.unshift({ ...action.payload, filter: "all", entityStatus: "idle" })
         },
       },
     ),
@@ -58,11 +60,13 @@ export const todolistsSlice = createAppSlice({
       async (id: string, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
+          dispatch(changeTodolistStatusAC({ id, status: "loading" }))
           await todolistsApi.deleteTodolist(id)
           dispatch(setAppStatusAC({ status: "succeeded" }))
           return id
         } catch (error) {
           dispatch(setAppStatusAC({ status: "failed" }))
+          dispatch(changeTodolistStatusAC({ id, status: "failed" }))
           return rejectWithValue(null)
         }
       },
@@ -102,11 +106,23 @@ export const todolistsSlice = createAppSlice({
         todolist.filter = action.payload.filter
       }
     }),
+    changeTodolistStatusAC: create.reducer<{ id: string; status: RequestStatus }>((state, action) => {
+      const todolist = state.find((todolist) => todolist.id === action.payload.id)
+      if (todolist) {
+        todolist.entityStatus = action.payload.status
+      }
+    }),
   }),
 })
 
-export const { fetchTodolistsTC, changeTodolistFilterAC, createTodolistTC, deleteTodolistTC, changeTodolistTitleTC } =
-  todolistsSlice.actions
+export const {
+  fetchTodolistsTC,
+  changeTodolistFilterAC,
+  createTodolistTC,
+  deleteTodolistTC,
+  changeTodolistTitleTC,
+  changeTodolistStatusAC,
+} = todolistsSlice.actions
 
 export const { selectTodolists } = todolistsSlice.selectors
 
