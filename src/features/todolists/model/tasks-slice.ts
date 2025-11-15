@@ -1,7 +1,7 @@
-import { createAppSlice } from "@/common/utils"
+import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { tasksApi } from "@/common/instance/tasksApi.ts"
 import { DomainTask, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types.ts"
-import { setAppErrorAC, setAppStatusAC } from "@/app/app-slice.ts"
+import { setAppStatusAC } from "@/app/app-slice.ts"
 import { ResultCode } from "@/common/enums/enums"
 
 export type Task = {
@@ -77,17 +77,11 @@ export const tasksSlice = createAppSlice({
           if (res.data.resultCode === ResultCode.Success) {
             return { task: res.data.data.item }
           } else {
-            if (res.data.messages.length) {
-              dispatch(setAppErrorAC({ error: res.data.messages[0] }))
-            } else {
-              dispatch(setAppErrorAC({ error: "Some error occurred" }))
-            }
-            dispatch(setAppStatusAC({ status: "failed" }))
+            handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
         } catch (error: any) {
-          dispatch(setAppErrorAC({ error: error.message }))
-          dispatch(setAppStatusAC({ status: "failed" }))
+          handleServerNetworkError(error, dispatch)
           return rejectWithValue(null)
         }
       },
@@ -109,17 +103,11 @@ export const tasksSlice = createAppSlice({
             dispatch(setAppStatusAC({ status: "succeeded" }))
             return { task: res.data.data.item }
           } else {
-            if (res.data.messages.length) {
-              dispatch(setAppErrorAC({ error: res.data.messages[0] }))
-            } else {
-              dispatch(setAppErrorAC({ error: "Some error occurred" }))
-            }
-            dispatch(setAppStatusAC({ status: "failed" }))
+            handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
         } catch (error: any) {
-          dispatch(setAppErrorAC({ error: error.message }))
-          dispatch(setAppStatusAC({ status: "failed" }))
+          handleServerNetworkError(error, dispatch)
           return rejectWithValue(null)
         }
       },
