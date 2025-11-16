@@ -1,11 +1,9 @@
 import styles from "./App.module.css"
 import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
-import { Header } from "@/common/components/Header/Header.tsx"
 import { getTheme } from "@/common/theme/theme.ts"
 import { selectThemeMode } from "@/app/app-slice.ts"
-import { ErrorSnackbar } from "@/common/components"
-import { Routing } from "@/common/common/routing"
+import { ErrorSnackbar, Header, Routing } from "@/common/components"
 import { useAppSelector } from "@/common/hooks"
 
 export const App = () => {
