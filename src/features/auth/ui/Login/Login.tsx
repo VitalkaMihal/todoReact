@@ -11,12 +11,8 @@ import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import s from "./Login.module.css"
-
-type LoginInputs = {
-  email: string
-  password: string
-  rememberMe: boolean
-}
+import { zodResolver } from "@hookform/resolvers/zod"
+import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -27,7 +23,10 @@ export const Login = () => {
     reset,
     control,
     formState: { errors },
-  } = useForm<LoginInputs>({ defaultValues: { email: "", password: "", rememberMe: false } })
+  } = useForm<LoginInputs>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "", rememberMe: false },
+  })
 
   const theme = getTheme(themeMode)
 
@@ -61,18 +60,7 @@ export const Login = () => {
             </p>
           </FormLabel>
           <FormGroup>
-            <TextField
-              label="Email"
-              margin="normal"
-              error={!!errors.email}
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Incorrect email address",
-                },
-              })}
-            />
+            <TextField label="Email" margin="normal" error={!!errors.email} {...register("email")} />
             {errors.email && <span className={s.errorMessage}>{errors.email.message}</span>}
 
             <TextField type="password" label="Password" margin="normal" {...register("password")} />
