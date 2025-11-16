@@ -45,6 +45,7 @@ export const todolistsSlice = createAppSlice({
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await todolistsApi.createTodolist(title)
           if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setAppStatusAC({ status: "succeeded" }))
             return res.data.data.item
           } else {
             handleServerAppError(res.data, dispatch)
@@ -68,6 +69,7 @@ export const todolistsSlice = createAppSlice({
           dispatch(changeTodolistStatusAC({ id, status: "loading" }))
           const res = await todolistsApi.deleteTodolist(id)
           if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setAppStatusAC({ status: "succeeded" }))
             return id
           } else {
             handleServerAppError(res.data, dispatch)
@@ -93,6 +95,7 @@ export const todolistsSlice = createAppSlice({
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await todolistsApi.changeTodolistTitle(payload)
           if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setAppStatusAC({ status: "succeeded" }))
             return payload
           } else {
             handleServerAppError(res.data, dispatch)
