@@ -1,5 +1,5 @@
 import { selectThemeMode } from "@/app/app-slice"
-import { useAppSelector } from "@/common/hooks"
+import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { getTheme } from "@/common/theme"
 import { Grid } from "@mui/material"
 import Button from "@mui/material/Button"
@@ -13,9 +13,16 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import s from "./Login.module.css"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
+import { loginTC, selectIsLoggedIn } from "@/features/auth/model/auth-slice.ts"
+import { Navigate } from "react-router"
+import { Path } from "@/common/common/routing/Routing.tsx"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
+
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+
+  const dispatch = useAppDispatch()
 
   const {
     register,
@@ -31,8 +38,12 @@ export const Login = () => {
   const theme = getTheme(themeMode)
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    console.log(data)
+    dispatch(loginTC(data))
     reset()
+  }
+
+  if (isLoggedIn) {
+    return <Navigate to={Path.Main} />
   }
 
   return (
