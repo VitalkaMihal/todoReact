@@ -1,9 +1,12 @@
 import { styled } from "@mui/material/styles"
 import Button from "@mui/material/Button"
+import { ElementType } from "react"
 
 type Props = {
   background?: string
   theme?: string
+  component?: ElementType
+  to?: string
 }
 
 export const NavButton = styled(Button)<Props>(({ background, theme }) => ({

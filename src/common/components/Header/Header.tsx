@@ -11,14 +11,15 @@ import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 import { getTheme } from "@/common/theme/theme.ts"
 import { LinearProgress } from "@mui/material"
-import { logoutTC, selectIsLoggedIn } from "@/features/auth/model/auth-slice.ts"
-import { Navigate } from "react-router"
+import { logoutTC, selectIsLoggedIn, selectLoginNickname } from "@/features/auth/model/auth-slice.ts"
+import { Link } from "react-router"
 import { Path } from "@/common/common/routing/Routing.tsx"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
   const status = useAppSelector(selectStatus)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const loginName = useAppSelector(selectLoginNickname)
 
   const dispatch = useAppDispatch()
 
@@ -32,10 +33,6 @@ export const Header = () => {
     dispatch(logoutTC())
   }
 
-  if (!isLoggedIn) {
-    return <Navigate to={Path.Login} />
-  }
-
   return (
     <AppBar position="static" sx={{ mb: "30px" }}>
       <Toolbar>
@@ -44,8 +41,11 @@ export const Header = () => {
             <MenuIcon />
           </IconButton>
           <div>
+            {isLoggedIn && <NavButton>{loginName}</NavButton>}
             {isLoggedIn && <NavButton onClick={logoutHandler}>Sign out</NavButton>}
-            <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
+            <NavButton component={Link} to={Path.Faq} background={theme.palette.primary.dark}>
+              Faq
+            </NavButton>
             <Switch color={"default"} onChange={changeMode} />
           </div>
         </Container>

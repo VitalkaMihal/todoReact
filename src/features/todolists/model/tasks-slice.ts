@@ -3,6 +3,7 @@ import { tasksApi } from "@/common/instance/tasksApi.ts"
 import { DomainTask, domainTaskSchema, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types.ts"
 import { setAppStatusAC } from "@/app/app-slice.ts"
 import { ResultCode } from "@/common/enums/enums"
+import { clearDataAC } from "@/common/actions/actions.ts"
 
 export type TasksState = {
   [key: string]: DomainTask[]
@@ -14,6 +15,7 @@ export const tasksSlice = createAppSlice({
   selectors: {
     selectTasks: (state) => state,
   },
+  extraReducers: (builder) => builder.addCase(clearDataAC.type, () => ({})),
   reducers: (create) => ({
     fetchTasksTC: create.asyncThunk(
       async (todolistId: string, { dispatch, rejectWithValue }) => {

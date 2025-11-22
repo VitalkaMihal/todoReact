@@ -4,14 +4,17 @@ import { setAppStatusAC } from "@/app/app-slice.ts"
 import { authApi } from "@/features/auth/api/authApi.ts"
 import { ResultCode } from "@/common/enums/enums.ts"
 import { AUTH_TOKEN } from "@/common/constants"
+import { clearDataAC } from "@/common/actions/actions.ts"
 
 export const authSlice = createAppSlice({
   name: "auth",
   initialState: {
     isLoggedIn: false,
+    loginNickname: null as string | null,
   },
   selectors: {
     selectIsLoggedIn: (state) => state.isLoggedIn,
+    selectLoginNickname: (state) => state.loginNickname,
   },
   reducers: (create) => ({
     loginTC: create.asyncThunk(
@@ -45,8 +48,9 @@ export const authSlice = createAppSlice({
           const res = await authApi.logout()
           if (res.data.resultCode === ResultCode.Success) {
             localStorage.removeItem(AUTH_TOKEN)
+            dispatch(clearDataAC())
             dispatch(setAppStatusAC({ status: "succeeded" }))
-            return { isLoggedIn: false }
+            return { isLoggedIn: false, loginNickname: null }
           } else {
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
@@ -69,7 +73,7 @@ export const authSlice = createAppSlice({
           const res = await authApi.me()
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setAppStatusAC({ status: "succeeded" }))
-            return { isLoggedIn: true }
+            return { isLoggedIn: true, loginNickname: res.data.data.login }
           } else {
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
@@ -82,6 +86,7 @@ export const authSlice = createAppSlice({
       {
         fulfilled: (state, action) => {
           state.isLoggedIn = action.payload.isLoggedIn
+          state.loginNickname = action.payload.loginNickname
         },
       },
     ),
@@ -89,5 +94,5 @@ export const authSlice = createAppSlice({
 })
 
 export const { loginTC, logoutTC, initializeAppTC } = authSlice.actions
-export const { selectIsLoggedIn } = authSlice.selectors
+export const { selectIsLoggedIn, selectLoginNickname } = authSlice.selectors
 export const authReducer = authSlice.reducer
