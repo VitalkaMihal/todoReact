@@ -4,12 +4,6 @@ import { DomainTask, domainTaskSchema, UpdateTaskModel } from "@/features/todoli
 import { setAppStatusAC } from "@/app/app-slice.ts"
 import { ResultCode } from "@/common/enums/enums"
 
-export type Task = {
-  id: string
-  title: string
-  isDone: boolean
-}
-
 export type TasksState = {
   [key: string]: DomainTask[]
 }

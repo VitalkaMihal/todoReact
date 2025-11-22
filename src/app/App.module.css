@@ -7,3 +7,10 @@
 .is-done {
   opacity: 0.5;
 }
+
+.circularProgressContainer {
+  position: fixed;
+  top: 30%;
+  text-align: center;
+  width: 100%;
+}
