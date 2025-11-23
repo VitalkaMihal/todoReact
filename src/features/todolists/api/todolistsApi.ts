@@ -22,10 +22,17 @@ export const todolistsApi = createApi({
       transformResponse: (todolists: Todolist[]): DomainTodolist[] =>
         todolists.map((todolist) => ({ ...todolist, filter: "all", entityStatus: "idle" })),
     }),
+    addTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
+      query: (title) => ({
+        url: "todo-lists",
+        method: "POST",
+        body: { title },
+      }),
+    }),
   }),
 })
 
-export const { useGetTodolistsQuery } = todolistsApi
+export const { useGetTodolistsQuery, useAddTodolistMutation } = todolistsApi
 
 export const _todolistsApi = {
   getTodolists() {
