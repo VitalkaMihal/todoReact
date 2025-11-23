@@ -4,7 +4,7 @@ import { PageNotFound } from "@/common/components"
 import { Login } from "@/features/auth/ui/Login"
 import { ProtectedRoute } from "@/common/components/ProtectedRoute/ProtectedRoute.tsx"
 import { useAppSelector } from "@/common/hooks"
-import { selectIsLoggedIn } from "@/features/auth/model/auth-slice.ts"
+import { selectIsLoggedIn } from "@/app/app-slice.ts"
 
 export const Path = {
   Main: "/",

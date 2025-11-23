@@ -6,20 +6,25 @@ import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import { NavButton } from "@/common/components/NavButton/NavButton.ts"
 import Switch from "@mui/material/Switch"
-import { changeThemeModeAC, selectStatus, selectThemeMode } from "@/app/app-slice.ts"
+import { changeThemeModeAC, selectIsLoggedIn, selectStatus, selectThemeMode, setIsLoggedInAC } from "@/app/app-slice.ts"
 import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 import { getTheme } from "@/common/theme/theme.ts"
 import { LinearProgress } from "@mui/material"
-import { logoutTC, selectIsLoggedIn, selectLoginNickname } from "@/features/auth/model/auth-slice.ts"
+import { selectLoginNickname } from "@/features/auth/model/auth-slice.ts"
 import { Link } from "react-router"
 import { Path } from "@/common/common/routing/Routing.tsx"
+import { ResultCode } from "@/common/enums/enums"
+import { AUTH_TOKEN } from "@/common/constants"
+import { clearDataAC } from "@/common/actions/actions.ts"
+import { useLogoutMutation } from "@/features/auth/api/authApi"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
   const status = useAppSelector(selectStatus)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
-  const loginName = useAppSelector(selectLoginNickname)
+
+  const [logout] = useLogoutMutation()
 
   const dispatch = useAppDispatch()
 
@@ -30,7 +35,13 @@ export const Header = () => {
   }
 
   const logoutHandler = () => {
-    dispatch(logoutTC())
+    logout().then((res) => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+        localStorage.removeItem(AUTH_TOKEN)
+        dispatch(clearDataAC())
+      }
+    })
   }
 
   return (
@@ -41,7 +52,6 @@ export const Header = () => {
             <MenuIcon />
           </IconButton>
           <div>
-            {isLoggedIn && <NavButton>{loginName}</NavButton>}
             {isLoggedIn && <NavButton onClick={logoutHandler}>Sign out</NavButton>}
             <NavButton component={Link} to={Path.Faq} background={theme.palette.primary.dark}>
               Faq
