@@ -1,10 +1,10 @@
 import { Todolist } from "../api/todolistsApi.types"
-import { todolistsApi } from "@/common/instance/todolistsApi.ts"
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { setAppStatusAC } from "@/app/app-slice.ts"
 import { RequestStatus } from "@/common/types"
 import { ResultCode } from "@/common/enums/enums.ts"
 import { clearDataAC } from "@/common/actions/actions.ts"
+import { todolistsApi } from "@/features/todolists/api/todolistsApi.ts"
 
 export type FilterValues = "all" | "active" | "completed"
 

@@ -1,9 +1,9 @@
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
-import { tasksApi } from "@/common/instance/tasksApi.ts"
 import { DomainTask, domainTaskSchema, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types.ts"
 import { setAppStatusAC } from "@/app/app-slice.ts"
 import { ResultCode } from "@/common/enums/enums"
 import { clearDataAC } from "@/common/actions/actions.ts"
+import { tasksApi } from "@/features/todolists/api/tasksApi.ts"
 
 export type TasksState = {
   [key: string]: DomainTask[]
