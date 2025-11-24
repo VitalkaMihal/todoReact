@@ -41,6 +41,7 @@ export const Login = () => {
     login(data).then((res) => {
       if (res.data?.resultCode === ResultCode.Success) {
         dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+        // dispatch(setLoginNameAC({ loginName: res.data.data.token }))
         localStorage.setItem(AUTH_TOKEN, res.data.data.token)
         reset()
       }

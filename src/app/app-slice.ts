@@ -10,6 +10,7 @@ export const appSlice = createSlice({
     status: "idle" as RequestStatus,
     error: null as string | null,
     isLoggedIn: false,
+    loginName: null as string | null,
   },
   reducers: (create) => ({
     changeThemeModeAC: create.reducer<{ themeMode: ThemeMode }>((state, action) => {
@@ -24,17 +25,21 @@ export const appSlice = createSlice({
     setIsLoggedInAC: create.reducer<{ isLoggedIn: boolean }>((state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn
     }),
+    setLoginNameAC: create.reducer<{ loginName: string | null }>((state, action) => {
+      state.loginName = action.payload.loginName
+    }),
   }),
   selectors: {
     selectThemeMode: (state) => state.themeMode,
     selectStatus: (state) => state.status,
     selectAppError: (state) => state.error,
     selectIsLoggedIn: (state) => state.isLoggedIn,
+    selectLoginName: (state) => state.loginName,
   },
 })
 
-export const { changeThemeModeAC, setAppStatusAC, setAppErrorAC, setIsLoggedInAC } = appSlice.actions
+export const { changeThemeModeAC, setAppStatusAC, setAppErrorAC, setIsLoggedInAC, setLoginNameAC } = appSlice.actions
 
 export const appReducer = appSlice.reducer
 
-export const { selectThemeMode, selectStatus, selectAppError, selectIsLoggedIn } = appSlice.selectors
+export const { selectThemeMode, selectStatus, selectAppError, selectIsLoggedIn, selectLoginName } = appSlice.selectors
