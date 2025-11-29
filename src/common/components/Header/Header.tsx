@@ -23,8 +23,8 @@ import { Link } from "react-router"
 import { Path } from "@/common/common/routing/Routing.tsx"
 import { ResultCode } from "@/common/enums/enums"
 import { AUTH_TOKEN } from "@/common/constants"
-import { clearDataAC } from "@/common/actions/actions.ts"
 import { useLogoutMutation } from "@/features/auth/api/authApi"
+import { baseApi } from "@/app/baseApi.ts"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -48,7 +48,7 @@ export const Header = () => {
         dispatch(setIsLoggedInAC({ isLoggedIn: false }))
         dispatch(setLoginNameAC({ loginName: null }))
         localStorage.removeItem(AUTH_TOKEN)
-        dispatch(clearDataAC())
+        dispatch(baseApi.util.resetApiState())
       }
     })
   }
