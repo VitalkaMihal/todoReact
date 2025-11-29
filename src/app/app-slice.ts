@@ -12,6 +12,23 @@ export const appSlice = createSlice({
     isLoggedIn: false,
     loginName: null as string | null,
   },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/pending")
+        },
+        (state) => {
+          state.status = "loading"
+        },
+      )
+      .addMatcher(
+        (action) => action.type.endsWith("/rejected"),
+        (state) => {
+          state.status = "failed"
+        },
+      )
+  },
   reducers: (create) => ({
     changeThemeModeAC: create.reducer<{ themeMode: ThemeMode }>((state, action) => {
       state.themeMode = action.payload.themeMode
