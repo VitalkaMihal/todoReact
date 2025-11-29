@@ -2,8 +2,8 @@ import { CreateItemForm } from "@/common/components/CreateItemForm/CreateItemFor
 import { TodolistTitle } from "@/features/todolists/ui/Todolists/TodolistItem/TodolistTitle/TodolistTitle.tsx"
 import { FilterButtons } from "@/features/todolists/ui/Todolists/TodolistItem/FilterButtons/FilterButtons.tsx"
 import { Tasks } from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/Tasks.tsx"
-import { DomainTodolist } from "@/features/todolists/model/todolists-slice.ts"
 import { useCreateTaskMutation } from "@/features/todolists/api/tasksApi"
+import { DomainTodolist } from "@/features/todolists/lib/types"
 
 type Props = {
   todolist: DomainTodolist
