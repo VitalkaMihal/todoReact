@@ -31,7 +31,6 @@ export const Header = () => {
   const status = useAppSelector(selectStatus)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const loginName = useAppSelector(selectLoginName)
-  console.log(loginName)
 
   const [logout] = useLogoutMutation()
 

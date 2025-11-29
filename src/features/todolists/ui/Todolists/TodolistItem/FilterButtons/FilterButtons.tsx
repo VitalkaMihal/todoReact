@@ -1,7 +1,8 @@
 import { Box, Button } from "@mui/material"
 import { containerSx } from "@/common/styles/container.styles.ts"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
-import { changeTodolistFilterAC, DomainTodolist, FilterValues } from "@/features/todolists/model/todolists-slice.ts"
+import { DomainTodolist, FilterValues } from "@/features/todolists/model/todolists-slice.ts"
+import { todolistsApi } from "@/features/todolists/api/todolistsApi"
 
 type Props = {
   todolist: DomainTodolist
@@ -12,8 +13,15 @@ export const FilterButtons = ({ todolist }: Props) => {
 
   const dispatch = useAppDispatch()
 
-  const changeFilterHandler = (filter: FilterValues) => {
-    dispatch(changeTodolistFilterAC({ id, filter }))
+  const changeFilter = (filter: FilterValues) => {
+    dispatch(
+      todolistsApi.util.updateQueryData("getTodolists", undefined, (state) => {
+        const todolist = state.find((todolist) => todolist.id === id)
+        if (todolist) {
+          todolist.filter = filter
+        }
+      }),
+    )
   }
 
   return (
@@ -22,7 +30,7 @@ export const FilterButtons = ({ todolist }: Props) => {
         variant={filter === "all" ? "outlined" : "contained"}
         size="small"
         color={filter === "all" ? "inherit" : "primary"}
-        onClick={() => changeFilterHandler("all")}
+        onClick={() => changeFilter("all")}
       >
         All
       </Button>
@@ -30,7 +38,7 @@ export const FilterButtons = ({ todolist }: Props) => {
         variant={filter === "active" ? "outlined" : "contained"}
         size="small"
         color={filter === "active" ? "inherit" : "primary"}
-        onClick={() => changeFilterHandler("active")}
+        onClick={() => changeFilter("active")}
       >
         Active
       </Button>
@@ -38,7 +46,7 @@ export const FilterButtons = ({ todolist }: Props) => {
         variant={filter === "completed" ? "outlined" : "contained"}
         size="small"
         color={filter === "completed" ? "inherit" : "secondary"}
-        onClick={() => changeFilterHandler("completed")}
+        onClick={() => changeFilter("completed")}
       >
         Completed
       </Button>
