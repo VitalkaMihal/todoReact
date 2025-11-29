@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { AUTH_TOKEN } from "@/common/constants"
 import { setAppErrorAC } from "@/app/app-slice.ts"
 import { isErrorWithMessage } from "@/common/utils/isErrorWithMessage"
+import { ResultCode } from "@/common/enums/enums.ts"
 
 export const baseApi = createApi({
   reducerPath: "todolistsApi",
@@ -45,6 +46,12 @@ export const baseApi = createApi({
           }
           break
       }
+      api.dispatch(setAppErrorAC({ error }))
+    }
+
+    if ((result.data as { resultCode: ResultCode }).resultCode === ResultCode.Error) {
+      const messages = (result.data as { messages: string[] }).messages
+      error = messages.length ? messages[0] : error
       api.dispatch(setAppErrorAC({ error }))
     }
 
