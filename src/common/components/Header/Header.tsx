@@ -43,14 +43,17 @@ export const Header = () => {
   }
 
   const logoutHandler = () => {
-    logout().then((res) => {
-      if (res.data?.resultCode === ResultCode.Success) {
-        dispatch(setIsLoggedInAC({ isLoggedIn: false }))
-        dispatch(setLoginNameAC({ loginName: null }))
-        localStorage.removeItem(AUTH_TOKEN)
-        dispatch(baseApi.util.resetApiState())
-      }
-    })
+    logout()
+      .then((res) => {
+        if (res.data?.resultCode === ResultCode.Success) {
+          dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+          localStorage.removeItem(AUTH_TOKEN)
+          dispatch(setLoginNameAC({ loginName: null }))
+        }
+      })
+      .then(() => {
+        dispatch(baseApi.util.invalidateTags(["Todolist", "Tasks"]))
+      })
   }
 
   return (
