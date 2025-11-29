@@ -15,15 +15,22 @@ export const appSlice = createSlice({
     loginName: null as string | null,
   },
   extraReducers: (builder) => {
-    builder.addMatcher(isPending, (state, action) => {
-      if (
-        todolistsApi.endpoints.getTodolists.matchPending(action) ||
-        tasksApi.endpoints.getTasks.matchPending(action)
-      ) {
-        return
-      }
-      state.status = "loading"
-    })
+    builder
+      .addMatcher(isPending, (state, action) => {
+        if (
+          todolistsApi.endpoints.getTodolists.matchPending(action) ||
+          tasksApi.endpoints.getTasks.matchPending(action)
+        ) {
+          return
+        }
+        state.status = "loading"
+      })
+      .addMatcher(isFulfilled, (state) => {
+        state.status = "succeeded"
+      })
+      .addMatcher(isRejected, (state) => {
+        state.status = "failed"
+      })
   },
   reducers: (create) => ({
     changeThemeModeAC: create.reducer<{ themeMode: ThemeMode }>((state, action) => {
