@@ -19,7 +19,7 @@ export const Tasks = ({ todolist }: Props) => {
 
   const dispatch = useAppDispatch()
 
-  const { data, currentData, isLoading, error, isFetching } = useGetTasksQuery({
+  const { data, isLoading, error } = useGetTasksQuery({
     todolistId: id,
     params: { page },
   })
