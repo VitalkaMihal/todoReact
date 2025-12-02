@@ -3,10 +3,11 @@ import { TaskItem } from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/T
 import { TaskStatus } from "@/common/enums/enums.ts"
 import { useGetTasksQuery } from "@/features/todolists/api/tasksApi"
 import { TasksSkeleton } from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/TasksSkeleton/TasksSkeleton.tsx"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { setAppErrorAC } from "@/app/app-slice"
 import { useAppDispatch } from "@/common/hooks"
 import { DomainTodolist } from "@/features/todolists/lib/types"
+import { TasksPagination } from "./TasksPagination/TasksPagination"
 
 type Props = {
   todolist: DomainTodolist
@@ -14,10 +15,14 @@ type Props = {
 
 export const Tasks = ({ todolist }: Props) => {
   const { id, filter } = todolist
+  const [page, setPage] = useState(1)
 
   const dispatch = useAppDispatch()
 
-  const { data, isLoading, error } = useGetTasksQuery(id)
+  const { data, currentData, isLoading, error, isFetching } = useGetTasksQuery({
+    todolistId: id,
+    params: { page },
+  })
 
   useEffect(() => {
     if (!error) return
@@ -49,11 +54,14 @@ export const Tasks = ({ todolist }: Props) => {
       {filteredTasks?.length === 0 ? (
         <p>Тасок нет</p>
       ) : (
-        <List>
-          {filteredTasks?.map((task) => {
-            return <TaskItem task={task} todolistId={id} key={task.id} />
-          })}
-        </List>
+        <>
+          <List>
+            {filteredTasks?.map((task) => {
+              return <TaskItem task={task} todolistId={id} key={task.id} />
+            })}
+          </List>
+          <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={setPage} />
+        </>
       )}
     </>
   )
