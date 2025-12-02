@@ -25,6 +25,30 @@ export const tasksApi = baseApi.injectEndpoints({
         method: "delete",
         url: `/todo-lists/${todolistId}/tasks/${taskId}`,
       }),
+      async onQueryStarted({ todolistId, taskId }, { dispatch, queryFulfilled, getState }) {
+        const cachedArgsForQuery = tasksApi.util.selectCachedArgsForQuery(getState(), "getTasks")
+
+        let patchResults: any[] = []
+        cachedArgsForQuery.forEach(({ params }) => {
+          patchResults.push(
+            dispatch(
+              tasksApi.util.updateQueryData("getTasks", { todolistId, params: { page: params.page } }, (state) => {
+                const index = state.items.findIndex((t) => t.id === taskId)
+                if (index !== -1) {
+                  state.items.splice(index, 1)
+                }
+              }),
+            ),
+          )
+        })
+        try {
+          await queryFulfilled
+        } catch {
+          patchResults.forEach((patchResult) => {
+            patchResult.undo()
+          })
+        }
+      },
       invalidatesTags: (_res, _err, { todolistId }) => [{ type: "Task", id: todolistId }],
     }),
     updateTask: build.mutation<BaseResponse<{ item: DomainTask }>, DomainTask>({
