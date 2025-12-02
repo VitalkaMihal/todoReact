@@ -15,10 +15,16 @@ export const TasksPagination = ({ totalCount, page, setPage }: Props) => {
     setPage(page)
   }
 
+  const count = Math.ceil(totalCount / PAGE_SIZE)
+
+  if (count === 1) {
+    return
+  }
+
   return (
     <>
       <Pagination
-        count={Math.ceil(totalCount / PAGE_SIZE)}
+        count={count}
         page={page}
         onChange={changePage}
         shape="rounded"
