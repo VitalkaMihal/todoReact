@@ -13,7 +13,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import s from "./Login.module.css"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
-import { useLoginMutation, useLazySecurityQuery } from "../../api/authApi"
+import { useLazySecurityQuery, useLoginMutation } from "../../api/authApi"
 import { ResultCode } from "@/common/enums/enums"
 import { AUTH_TOKEN } from "@/common/constants"
 
