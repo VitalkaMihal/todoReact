@@ -12,7 +12,7 @@ export const appSlice = createSlice({
     status: "idle" as RequestStatus,
     error: null as string | null,
     isLoggedIn: false,
-    loginName: null as string | null,
+    isCaptchaUrl: false,
   },
   extraReducers: (builder) => {
     builder
@@ -36,17 +36,14 @@ export const appSlice = createSlice({
     changeThemeModeAC: create.reducer<{ themeMode: ThemeMode }>((state, action) => {
       state.themeMode = action.payload.themeMode
     }),
-    setAppStatusAC: create.reducer<{ status: RequestStatus }>((state, action) => {
-      state.status = action.payload.status
-    }),
     setAppErrorAC: create.reducer<{ error: string | null }>((state, action) => {
       state.error = action.payload.error
     }),
     setIsLoggedInAC: create.reducer<{ isLoggedIn: boolean }>((state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn
     }),
-    setLoginNameAC: create.reducer<{ loginName: string | null }>((state, action) => {
-      state.loginName = action.payload.loginName
+    setIsCaptchaUrlAC: create.reducer<{ isCaptchaUrl: boolean }>((state, action) => {
+      state.isCaptchaUrl = action.payload.isCaptchaUrl
     }),
   }),
   selectors: {
@@ -54,12 +51,12 @@ export const appSlice = createSlice({
     selectStatus: (state) => state.status,
     selectAppError: (state) => state.error,
     selectIsLoggedIn: (state) => state.isLoggedIn,
-    selectLoginName: (state) => state.loginName,
+    selectCaptchaUrl: (state) => state.isCaptchaUrl,
   },
 })
 
-export const { changeThemeModeAC, setAppStatusAC, setAppErrorAC, setIsLoggedInAC, setLoginNameAC } = appSlice.actions
+export const { changeThemeModeAC, setAppErrorAC, setIsLoggedInAC, setIsCaptchaUrlAC } = appSlice.actions
 
 export const appReducer = appSlice.reducer
 
-export const { selectThemeMode, selectStatus, selectAppError, selectIsLoggedIn, selectLoginName } = appSlice.selectors
+export const { selectThemeMode, selectStatus, selectAppError, selectIsLoggedIn, selectCaptchaUrl } = appSlice.selectors

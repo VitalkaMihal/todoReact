@@ -6,15 +6,7 @@ import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import { NavButton } from "@/common/components/NavButton/NavButton.ts"
 import Switch from "@mui/material/Switch"
-import {
-  changeThemeModeAC,
-  selectIsLoggedIn,
-  selectLoginName,
-  selectStatus,
-  selectThemeMode,
-  setIsLoggedInAC,
-  setLoginNameAC,
-} from "@/app/app-slice.ts"
+import { changeThemeModeAC, selectIsLoggedIn, selectStatus, selectThemeMode, setIsLoggedInAC } from "@/app/app-slice.ts"
 import { useAppSelector } from "@/common/hooks/useAppSelector.ts"
 import { useAppDispatch } from "@/common/hooks/useAppDispatch.ts"
 import { getTheme } from "@/common/theme/theme.ts"
@@ -23,14 +15,17 @@ import { Link } from "react-router"
 import { Path } from "@/common/common/routing/Routing.tsx"
 import { ResultCode } from "@/common/enums/enums"
 import { AUTH_TOKEN } from "@/common/constants"
-import { useLogoutMutation } from "@/features/auth/api/authApi"
+import { useMeQuery, useLogoutMutation } from "@/features/auth/api/authApi"
 import { baseApi } from "@/app/baseApi.ts"
+import { useEffect, useState } from "react"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
   const status = useAppSelector(selectStatus)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
-  const loginName = useAppSelector(selectLoginName)
+  const [loginName, setLoginName] = useState<string>("")
+
+  const { data } = useMeQuery()
 
   const [logout] = useLogoutMutation()
 
@@ -48,13 +43,18 @@ export const Header = () => {
         if (res.data?.resultCode === ResultCode.Success) {
           dispatch(setIsLoggedInAC({ isLoggedIn: false }))
           localStorage.removeItem(AUTH_TOKEN)
-          dispatch(setLoginNameAC({ loginName: null }))
+          setLoginName("")
         }
       })
       .then(() => {
-        dispatch(baseApi.util.invalidateTags(["Todolist", "Tasks"]))
+        dispatch(baseApi.util.invalidateTags(["Todolist", "Task"]))
       })
   }
+
+  useEffect(() => {
+    if (!isLoggedIn) return
+    setLoginName(data ? data.data.login : "")
+  }, [isLoggedIn])
 
   return (
     <AppBar position="static" sx={{ mb: "30px" }}>
@@ -64,7 +64,7 @@ export const Header = () => {
             <MenuIcon />
           </IconButton>
           <div>
-            {loginName && <NavButton>{loginName}</NavButton>}
+            {isLoggedIn && <NavButton>{loginName}</NavButton>}
             {isLoggedIn && <NavButton onClick={logoutHandler}>Sign out</NavButton>}
             <NavButton component={Link} to={Path.Faq} background={theme.palette.primary.dark}>
               Faq

@@ -1,4 +1,4 @@
-import { selectThemeMode, setIsLoggedInAC } from "@/app/app-slice"
+import { selectCaptchaUrl, selectThemeMode, setIsCaptchaUrlAC, setIsLoggedInAC } from "@/app/app-slice"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { getTheme } from "@/common/theme"
 import { Grid } from "@mui/material"
@@ -13,14 +13,16 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import s from "./Login.module.css"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
-import { useLoginMutation } from "../../api/authApi"
+import { useLoginMutation, useLazySecurityQuery } from "../../api/authApi"
 import { ResultCode } from "@/common/enums/enums"
 import { AUTH_TOKEN } from "@/common/constants"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
+  const isCaptcha = useAppSelector(selectCaptchaUrl)
 
   const [login] = useLoginMutation()
+  const [trigger, { data: captchaUrl }] = useLazySecurityQuery()
 
   const dispatch = useAppDispatch()
 
@@ -41,9 +43,14 @@ export const Login = () => {
     login(data).then((res) => {
       if (res.data?.resultCode === ResultCode.Success) {
         dispatch(setIsLoggedInAC({ isLoggedIn: true }))
-        // dispatch(setLoginNameAC({ loginName: res.data.data.token }))
+        dispatch(setIsCaptchaUrlAC({ isCaptchaUrl: false }))
         localStorage.setItem(AUTH_TOKEN, res.data.data.token)
         reset()
+      } else {
+        if (res.data?.resultCode === ResultCode.CaptchaError) {
+          dispatch(setIsCaptchaUrlAC({ isCaptchaUrl: true }))
+          trigger()
+        }
       }
     })
   }
@@ -84,6 +91,19 @@ export const Login = () => {
               error={!!errors.password}
             />
             {errors.password && <span className={s.errorMessage}>{errors.password.message}</span>}
+            {isCaptcha && (
+              <>
+                <img src={captchaUrl?.url} alt="capcha" />
+                <TextField
+                  type="captcha"
+                  label="Captcha"
+                  margin="normal"
+                  error={!!errors.captcha}
+                  {...register("captcha")}
+                />
+                {errors.captcha && <span className={s.errorMessage}>{errors.captcha.message}</span>}
+              </>
+            )}
             <FormControlLabel
               label="Remember me"
               control={

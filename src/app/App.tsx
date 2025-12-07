@@ -2,7 +2,7 @@ import styles from "./App.module.css"
 import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
 import { getTheme } from "@/common/theme/theme.ts"
-import { selectThemeMode, setIsLoggedInAC, setLoginNameAC } from "@/app/app-slice.ts"
+import { selectThemeMode, setIsLoggedInAC } from "@/app/app-slice.ts"
 import { ErrorSnackbar, Header, Routing } from "@/common/components"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { useEffect, useState } from "react"
@@ -24,7 +24,6 @@ export const App = () => {
   useEffect(() => {
     if (isLoading) return
     if (data?.resultCode === ResultCode.Success) {
-      dispatch(setLoginNameAC({ loginName: data.data.login }))
       dispatch(setIsLoggedInAC({ isLoggedIn: true }))
     }
     setIsInitialized(true)
